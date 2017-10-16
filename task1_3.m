@@ -1,4 +1,10 @@
-%Kristen notes :
+=%Kristen notes :
+% x = {d.name}';
+% idx = randi(length(x));
+% fname = x{idx};
+% lst = ~cellfun(@isempty,strfind(x,x{idx}(1:2)));
+% x(lst) = [];
+
 % we need to load the images as textures
 % store gender info in the image structs if possible
 % store image info in an array or matrix
