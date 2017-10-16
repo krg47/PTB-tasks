@@ -1,4 +1,4 @@
-=%Kristen notes :
+%Kristen notes :
 % x = {d.name}';
 % idx = randi(length(x));
 % fname = x{idx};
