@@ -1,4 +1,7 @@
 %Kristen notes :
+%When you were doing ceil(.5*x) it was cutting the image number in half and
+%making it favor the first half of the faces which were female 
+
 % x = {d.name}';
 % idx = randi(length(x));
 % fname = x{idx};
@@ -80,7 +83,7 @@ white = WhiteIndex(screenNumber);
 grey = [0 0 0];
 
 % Open an on screen window and color it grey
-[window, windowRect] = PsychImaging('OpenWindow', screenNumber, grey); %the small screen was displaying some stuff weird so I swapped it back
+[window, windowRect] = PsychImaging('OpenWindow', screenNumber, grey); %the small screen was displaying some stuff weird so I swappe=d it back
 
 % Set the blend funciton for the screen
 Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
@@ -188,43 +191,99 @@ while i<trials + 2
                 if v==80 %left to neutral
                     response{i,:}='L'; %record left or right
                     
-                    test=1;
-                    while test==1;
-                        x = randi(facenumber); %random face index
-                        if ismember(ceil(.5*x), ranvar) %see whether it was already used=   imgnum(i) = str2num(strcat(file(1), file(2)));
-                            test = 1;
+%                     test=1;
+%                     while test==1;
+%                         x = randi(facenumber); %random face index
+%                         if ismember(x, ranvar) %see whether it was already used=   imgnum(i) = str2num(strcat(file(1), file(2)));
+%                             test = 1;
+%                         else
+%                             test = 0;
+%                         end
+%                         if rem(x, 2) == 1;
+%                             test=1;
+%                         end
+%                     end
+
+%                     ranvar(1+i)= x;    %take random integer from number of faces
+
+
+                    test = 1;
+                    while test == 1
+                        
+                        x = {d.name}';
+                        idx = randi(length(x));
+                        fname = x{idx};
+                        
+                        if fname(9) == 'H'
+                            test = 0
+                            lst = ~cellfun(@isempty,strfind(x,x{idx}(1:2)));
+                            x(lst) = [];
                         else
-                            test = 0;
-                        end
-                        if rem(x, 2) == 1;
-                            test=1;
+                            test = 1
                         end
                     end
-                    ranvar(1+i)= ceil(.5*x);    %take random integer from number of faces
+                        
+                    file = displayface(idx, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
+
+
+
+
                     
                     
-                    file = displayface(ranvar, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
+                    
+                    %file = displayface(ranvar, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
                     
                 end
                 if v==79 %right to negative
+%                     
+%                     response{i,:}='R'; %record left or right
+%                     
+%                     test=1;
+%                     while test==1;
+%                         x = randi(facenumber); %random face index
+%                         if ismember(x, ranvar) %see whether it was already used=
+%                             test = 1;
+%                         else
+%                             test = 0;
+%                         end
+%                         if rem(x, 2) == 0;
+%                             test=1;
+%                         end
+%                     end
+%                     ranvar(1+i)= x;    %take random integer from number of faces
+%                     
+%                     file = displayface(ranvar, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
+%                     
+%                     
+%                     
                     
-                    response{i,:}='R'; %record left or right
                     
-                    test=1;
-                    while test==1;
-                        x = randi(facenumber); %random face index
-                        if ismember(ceil(.5*x), ranvar) %see whether it was already used=
-                            test = 1;
+                    
+                    
+                    
+                    
+                    test = 1;
+                    while test == 1
+                        
+                        x = {d.name}';
+                        idx = randi(length(x));
+                        fname = x{idx};
+                        
+                        if fname(9) == 'F'
+                            test = 0
+                            lst = ~cellfun(@isempty,strfind(x,x{idx}(1:2)));
+                            x(lst) = [];
                         else
-                            test = 0;
-                        end
-                        if rem(x, 2) == 0;
-                            test=1;
+                            test = 1
                         end
                     end
-                    ranvar(1+i)= ceil(.5*x);    %take random integer from number of faces
+                        
+                    file = displayface(idx, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
+
                     
-                    file = displayface(ranvar, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
+                    
+                    
+                    
                     
                 end
                 WaitSecs(ISI);  %ISI
@@ -259,7 +318,7 @@ end
 
 KbStrokeWait;
 
-% Clear the screen==
+% Clear the screen
 sca;
 
 
@@ -268,9 +327,12 @@ sca;
 
 end
 
+
 function file = displayface(ranvar, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels)
 
-file=getfield(d(ranvar(1+i)),'name');  %gets name from structure=
+% file=getfield(d(ranvar(1+i)),'name');  %gets name from structure=
+
+file=getfield(d(ranvar),'name');  %gets name from structure=
 
 theImage = imread(file);
 imageTexture = Screen('MakeTexture', window, theImage);
@@ -315,16 +377,3 @@ end
 end
 
 %==
-%d(2) = [];===
-%===========================================================================
-%d====
-
-%d ==
-
-%7x1 struct array with fields:==
-
-%    name
-%   date
-%  bytes=
-% isdir
-%datenum
