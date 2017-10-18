@@ -31,7 +31,8 @@
 %file?
 
 %10/12. Be able to code subject id at top and pass into function. Make sure
-%the face isn't repeated. Can we repeat names?
+%the face isn't repeated. Can we repeat names? YES names dont matter for
+%now
 
 
 clear;
@@ -83,7 +84,7 @@ white = WhiteIndex(screenNumber);
 grey = [0 0 0];
 
 % Open an on screen window and color it grey
-[window, windowRect] = PsychImaging('OpenWindow', screenNumber, grey); %the small screen was displaying some stuff weird so I swappe=d it back
+[window, windowRect] = PsychImaging('OpenWindow', screenNumber, grey); %the =small screen was displaying some stuff weird so I swapp e=d it back
 
 % Set the blend funciton for the screen
 Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
@@ -133,12 +134,12 @@ end
 WaitSecs(0.5);
 
 
-
+faces = {d.name}';
 i = 0;
-ranvar(1)=ceil(.5*randi(namenum)); %take random integer from number of faces, ceil because 2 faces per number
+ranvar=randi(namenum); %take random integer from number of faces, ceil because 2 faces per number
 
-
-file = displayface(ranvar, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
+fname = faces{ranvar};
+file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
 
 imgnum(1) = str2num(strcat(file(1), file(2)));
 gender{1} = file(3);
@@ -210,20 +211,20 @@ while i<trials + 2
                     test = 1;
                     while test == 1
                         
-                        x = {d.name}';
-                        idx = randi(length(x));
-                        fname = x{idx};
+                        %x = {d.name}';
+                        idx = randi(length(faces));
+                        fname = faces{idx};
                         
                         if fname(9) == 'H'
                             test = 0
-                            lst = ~cellfun(@isempty,strfind(x,x{idx}(1:2)));
-                            x(lst) = [];
+                            lst = ~cellfun(@isempty,strfind(faces,faces{idx}(1:2)));
+                            faces(lst) = [];
                         else
                             test = 1
                         end
                     end
                         
-                    file = displayface(idx, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
+                    file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
 
 
 
@@ -265,20 +266,20 @@ while i<trials + 2
                     test = 1;
                     while test == 1
                         
-                        x = {d.name}';
-                        idx = randi(length(x));
-                        fname = x{idx};
+                       % x = {d.name}';
+                        idx = randi(length(faces));
+                        fname = faces{idx};
                         
                         if fname(9) == 'F'
                             test = 0
-                            lst = ~cellfun(@isempty,strfind(x,x{idx}(1:2)));
-                            x(lst) = [];
+                            lst = ~cellfun(@isempty,strfind(faces,faces{idx}(1:2)));
+                            faces(lst) = [];
                         else
                             test = 1
                         end
                     end
                         
-                    file = displayface(idx, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
+                    file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels);
 
                     
                     
@@ -328,11 +329,11 @@ sca;
 end
 
 
-function file = displayface(ranvar, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels)
+function file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels)
 
 % file=getfield(d(ranvar(1+i)),'name');  %gets name from structure=
 
-file=getfield(d(ranvar),'name');  %gets name from structure=
+file=fname;  %gets name from structure=
 
 theImage = imread(file);
 imageTexture = Screen('MakeTexture', window, theImage);
@@ -376,4 +377,4 @@ end
 
 end
 
-%==
+%=====
