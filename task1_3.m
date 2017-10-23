@@ -5,7 +5,7 @@
 % x = {d.name}';
 % idx = randi(length(x));
 % fname = x{idx};
-% lst = ~cellfun(@isempty,strfind(x,x{idx}(1:2)));
+% lst = ~cellfun(@isempty,strfind(x,x{idx}(1:2)));=
 % x(lst) = [];
 
 % we need to load the images as textures
@@ -31,8 +31,9 @@
 %file?
 
 %10/12. Be able to code subject id at top and pass into function. Make sure
-%the face isn't repeated. Can we repeat names? YES names dont matter for
+%the fa=ce isn't repeated. Can we repeat names? YES names dont matter for
 %now
+%should wait to start wait time be ISI or .5? value for facenumber?
 
 
 clear;
@@ -66,10 +67,10 @@ experiment(MaleNames, FemaleNames, d, trials, ISI, subID, prob);
 
 function [imgnum,gender,valence,response,responsetime] = experiment(MaleNames, FemaleNames, d, trials, ISI, subID, prob) %made this a function so that the arguments can be changed more easily
     namenum = length(MaleNames);
-    facenumber = length(d);
+    facenumber = length(d);  
     d = dir(d);
 
-    % Get the screen numbers==
+    % Get the screen numbers
     screens = Screen('Screens');
 
     % Select the external screen if it is present, else revert to the native
@@ -229,8 +230,8 @@ function [imgnum,gender,valence,response,responsetime] = experiment(MaleNames, F
         i = i+1;
         if i<trials+2
         imgnum(i,:) = str2num(strcat(file(1), file(2)))
-        gender{i} = file(3)
-        valence{i} = file(9)
+        gender{i,:} = file(3)
+        valence{i,:} = file(9)
         end
 
         filename = strcat('test_',subID,'.mat');
@@ -288,3 +289,4 @@ function file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i
             screenYpixels * 0.82, [1 1 1]);
     end
 end
+%==
