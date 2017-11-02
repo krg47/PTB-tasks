@@ -1,0 +1,46 @@
+function [ screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter] = waittostart
+
+screens = Screen('Screens'); % Get the screen numbers
+% Select the external screen if it is present, else revert to the native
+% screen
+screenNumber = max(screens);
+% Define black, white
+white = WhiteIndex(screenNumber);
+black = [0 0 0];
+%open black window
+[window, windowRect] = PsychImaging('OpenWindow', screenNumber, black); %th=e ===small screen was displaying some stuff weird so I swapp e=d it back
+
+% Set the blend funciton for the screen
+Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
+
+% Get the size of the on screen window in pixels=
+% For help see: Screen WindowSize?
+[screenXpixels, screenYpixels] = Screen('WindowSize', window);
+
+% Get the centre coordinate of the window in pixels
+% For help see: help RectCenter=    =
+[xCenter, yCenter] = RectCenter(windowRect);
+
+% Draw text in the middle of the screen in Courier in white
+Screen('TextSize', window, 80);
+Screen('TextFont', window, 'Times');
+DrawFormattedText(window, 'Waiting for Experiment to Start', 'center', 'center', white);
+
+% Flip to the screen
+Screen('Flip', window);
+
+KbName('UnifyKeyNames');
+while KbCheck; end % Wait until all keys are released.
+while 1
+    % Check the state of the keyboard.
+    [keyIsDown,~,keyCode] = KbCheck;
+    % If the user is pressing a key
+    if keyIsDown
+        v = find(keyCode);
+        if v == 46
+            break;
+        end
+        % waits until all keys have been released.
+    end
+end
+WaitSecs(0.5);
