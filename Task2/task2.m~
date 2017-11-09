@@ -26,6 +26,34 @@
 %store image number, response time, and valence into a file named after the
 %ID of the subject
 
+%11/2-if they press any key it should go on, but record what key they
+%pressed. Include response if they actually pressed right button (0 or 1).
+
+%11/3- do we want to store the key they press by name of by ASCII? As of
+%now it is ASCII but just do KbName(matrix) to switch. How should we store
+%the sequence that is used? (store it for each trial for comparison or just
+%once?) It also seems to be lagging a slight amount since adding that all
+%keys should be released before checking-is this an issue? also added
+%aa 1 or 0 for if button is right or wrong
+
+% 11/6 right now when the experiment ends they are shown a screen with
+% empty squares until they press another button. Can we avoid this?
+% I created a file called "sequences.txt" that has randomly generated
+% sequences. I got rid of the ones I saw that had a bunch of repititions,
+% but you may want to double-check it. Theres ~75 sequences in the file. I
+% created the file, but I haven't made our function read from it
+% yet.
+
+%11/7 I was messing around with the inter trial interval (ITI) and I think
+%that if it is used, then there should not be a problem with 2 numbers
+%repeating in the sequence. I tried the ITI of 0.750 seconds and it was way too
+%long of a time. I then tried it with 0.1 seconds and then 0.01 seconds.
+%Both seemed adequate. I still do not think a sequence should have more
+%than two of the same consecutive number. 
+
+%11/8 sequences.csv now has 94 valid sequences and one is randomly chosen.
+%sequencer.m generates sequences and gets rid of ones with  repititions
+
 clear;
 addpath /Volumes/gizmo/Workspace/Matt_r
 addpath /Volumes/gizmo/Workspace/Matt_r/GitRepo/Faces
@@ -38,10 +66,17 @@ d = dir('/Volumes/gizmo/Workspace/Matt_R/GitRepo/Faces/*.png');
 subID='1234'; %subject ID
 sequencelength=7; %set number of terms in sequence
 neutralreps=2; %number of neutral faces initially shown
+blocks = 1;
 repetitions=10; %how many times we want it to happen
 ITI=0; %inter trial interval
 ISI=1.25;
-sequence=[3 4 1 2 3 1 4]; %for now just use a given sequence before a sequence bank is given to us
+
+%sequence=[3; 4; 1; 2; 3; 1; 4]; %for now just use a given sequence before a sequence bank is given to us
+
+sequences = csvread('sequences.csv');
+% sz = size(sequences);
+% rseq = randi(sz(1));
+% sequence = sequences(rseq, :);
 
 [screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter] = waittostart; %waittostart function
 
@@ -49,22 +84,34 @@ key='N'; %key is N for initial neutral faces
 img(1)=0;
 responsetime=zeros(1,10); %blank vectors
 imgnum=zeros(1,10);
+keyresponse=zeros(1,7);
+for j = 1:blocks
+    sz = size(sequences);
+    rseq = randi(sz(1));
+    sequence = sequences(rseq, :);
+    sequence=transpose(sequence);
+    key='N'; %key is N for initial neutral faces
+    img(1)=0;
 for i=1:repetitions %how many sequences of 7 we want
     for numseq=1:length(sequence) %length of the sequence
-        [responsetime, imgnum, theImage, fname] = squares(sequence, d, key,numseq, img, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter,responsetime, imgnum,i); %display function
+        [responsetime, imgnum, theImage, fname,keyresponse] = squares(sequence, d, key,numseq, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum,i, keyresponse); %display function
         WaitSecs(ITI) %intertrial interval
     end
-    valence{i,:} = fname(9);  %how to store?
+    valence{i+((j-1)*repetitions),:} = fname(9);  %how to store?
     totalResponseTime(i)=sum(responsetime);
     key=analyze(responsetime, i, neutralreps, totalResponseTime);
     %convert to cells
-    responseCell{i,:}=totalResponseTime(i);
-    imgCell{i,:}=imgnum(i);
+    responsetimeCell{i+((j-1)*repetitions),:}=totalResponseTime(i);
+    keyresponseCell{i+((j-1)*repetitions),:}=transpose(keyresponse);  %store keyresponse as a column vector
+    imgCell{i+((j-1)*repetitions),:}=imgnum(i);
+    sequenceCell{i+((j-1)*repetitions),:}=sequence;
+    rightorwrongCell{i+((j-1)*repetitions),:}=(transpose(keyresponse)==(sequence+29)); %add 29 for ascii
     WaitSecs(ISI-ITI) %interstimulus interval, subtract ITI because it already waited ITI
+end
 end
 
 datafile=strcat('subject_',subID); %makes filename for results
-save(datafile, 'responseCell', 'imgCell','valence') %also need image names and valence %
+save(datafile, 'responsetimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell') %also need image names and valence %
 
-KbStrokeWait; %ends with keyboard touch
-sca;=3412323143412314341234414341234124321442431343412341434123124314341234423134213421341342134213423214324213132341423343123143413234214314314
+
+sca;

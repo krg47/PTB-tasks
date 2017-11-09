@@ -1,4 +1,4 @@
-function [responsetime, imgnum, theImage, fname]=squares(sequence, d, key,numseq, img, screens, screenNumber, black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter, responsetime, imgnum,i)
+function [responsetime, imgnum, theImage, fname, keyresponse]=squares(sequence, d, key,numseq,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum,i,keyresponse)
 %function to display squares and face
 
 if key=='N'
@@ -47,15 +47,15 @@ Screen('DrawTextures', window, imageTexture, [], dstRects);
 starttime=GetSecs;
 Screen('Flip', window);
 
+while KbCheck; %make sure keys are released
+end
 while 1
-    % Check the state of the keyboard.
-    [keyIsDown,~,keyCode] = KbCheck;
-    if keyIsDown
-        v = find(keyCode);
-        if v == (sequence(numseq)+29)
-            break;
-        end
-    end
+[keyIsDown,~,keyCode] = KbCheck;
+if keyIsDown
+    numseq
+    keyresponse(numseq) = find(keyCode);
+    break;
+end
 end
 
 endtime=GetSecs;
