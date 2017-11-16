@@ -49,34 +49,42 @@
 %repeating in the sequence. I tried the ITI of 0.750 seconds and it was way too
 %long of a time. I then tried it with 0.1 seconds and then 0.01 seconds.
 %Both seemed adequate. I still do not think a sequence should have more
-%than two of the same consecutive number. 
+%than two of the same consecutive number.
 
 %11/8 sequences.csv now has 94 valid sequences and one is randomly chosen.
 %sequencer.m generates sequences and gets rid of ones with  repititions
 
-clear;
+%11/15- should average be recalculated between blocks?
+
+%11/16- first half if you get better faces become more negative, second half faces
+%become more positive (sequence stays the same)-FIXED. also gender and race of
+%image. make reaction time for each key-FIXED. unique id is one of 18 faces.
+%valence will be something like % then fearful/happy. store parameters put
+%in for function, need 20x7 for storage
+
+function task2(subID, blocks, repetitions, ITI, ISI);
+
 addpath /Volumes/gizmo/Workspace/Matt_r
 addpath /Volumes/gizmo/Workspace/Matt_r/GitRepo/Faces
 addpath(genpath('/Applications/MatlabAddOns/Psychtoolbox-3-PTB_Beta-2016-09-10_V3.0.13/'))
 Screen('Preference', 'SkipSyncTests', 1);
 sca;
 PsychDefaultSetup(2);
-d = dir('/Volumes/gizmo/Workspace/Matt_R/GitRepo/Faces/*.png');
+d = dir('Faces/*.png');
 %maxconsecutive=2; %number of times the same number is allowed to be in the sequence consecutively
-subID='1234'; %subject ID
 sequencelength=7; %set number of terms in sequence
 neutralreps=2; %number of neutral faces initially shown
-blocks = 1;
-repetitions=10; %how many times we want it to happen
-ITI=0; %inter trial interval
-ISI=1.25;
+
 
 %sequence=[3; 4; 1; 2; 3; 1; 4]; %for now just use a given sequence before a sequence bank is given to us
 
+%makes random sequence
 sequences = csvread('sequences.csv');
-% sz = size(sequences);
-% rseq = randi(sz(1));
-% sequence = sequences(rseq, :);
+sz = size(sequences);
+rseq = randi(sz(1));
+sequence = sequences(rseq, :);
+sequence=transpose(sequence);
+
 
 [screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter] = waittostart; %waittostart function
 
@@ -86,32 +94,29 @@ responsetime=zeros(1,10); %blank vectors
 imgnum=zeros(1,10);
 keyresponse=zeros(1,7);
 for j = 1:blocks
-    sz = size(sequences);
-    rseq = randi(sz(1));
-    sequence = sequences(rseq, :);
-    sequence=transpose(sequence);
-    key='N'; %key is N for initial neutral faces
-    img(1)=0;
-for i=1:repetitions %how many sequences of 7 we want
-    for numseq=1:length(sequence) %length of the sequence
-        [responsetime, imgnum, theImage, fname,keyresponse] = squares(sequence, d, key,numseq, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum,i, keyresponse); %display function
-        WaitSecs(ITI) %intertrial interval
+    for i=1:repetitions %how many sequences of 7 we want
+        k=(i+(j-1)*repetitions); %Variable k
+        for numseq=1:length(sequence) %length of the sequence
+            [responsetime, imgnum, theImage, fname,keyresponse] = squares(sequence, d, key,numseq, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, repetitions); %display function
+            WaitSecs(ITI) %intertrial interval
+        end
+        valence{k,:} = fname(9);  %how to store?
+        totalResponseTime(k)=sum(responsetime);
+        key=analyze(responsetime, i, neutralreps, totalResponseTime,j,repetitions,k);
+        %convert to cells
+        responseTimeCell{k,:}=responsetime(1:length(sequence)); %slightly weird format otherwise would have extra 0s
+        totalResponseTimeCell{k,:}=totalResponseTime(k);
+        keyresponseCell{k,:}=transpose(keyresponse);  %store keyresponse as a column vector
+        imgCell{k,:}=imgnum(k);
+        sequenceCell{k,:}=sequence;
+        rightorwrongCell{k,:}=(transpose(keyresponse)==(sequence+29)); %add 29 for ascii
+        WaitSecs(ISI-ITI) %interstimulus interval, subtract ITI because it already waited ITI
     end
-    valence{i+((j-1)*repetitions),:} = fname(9);  %how to store?
-    totalResponseTime(i)=sum(responsetime);
-    key=analyze(responsetime, i, neutralreps, totalResponseTime);
-    %convert to cells
-    responsetimeCell{i+((j-1)*repetitions),:}=totalResponseTime(i);
-    keyresponseCell{i+((j-1)*repetitions),:}=transpose(keyresponse);  %store keyresponse as a column vector
-    imgCell{i+((j-1)*repetitions),:}=imgnum(i);
-    sequenceCell{i+((j-1)*repetitions),:}=sequence;
-    rightorwrongCell{i+((j-1)*repetitions),:}=(transpose(keyresponse)==(sequence+29)); %add 29 for ascii
-    WaitSecs(ISI-ITI) %interstimulus interval, subtract ITI because it already waited ITI
-end
 end
 
 datafile=strcat('subject_',subID); %makes filename for results
-save(datafile, 'responsetimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell') %also need image names and valence %
+save(datafile, 'responseTimeCell','totalResponseTimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell') %also need image names and valence %
 
 
 sca;
+end

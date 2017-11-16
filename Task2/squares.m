@@ -1,19 +1,19 @@
-function [responsetime, imgnum, theImage, fname, keyresponse]=squares(sequence, d, key,numseq,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum,i,keyresponse)
+function [responsetime, imgnum, theImage, fname, keyresponse]=squares(sequence, d, key,numseq,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum,keyresponse,k, repetitions)
 %function to display squares and face
 
 if key=='N'
-    imgnum(i)=ceil(length(d)/2); %neutral in the middle
+    imgnum(k)=ceil(length(d)/2); %neutral in the middle
 end
 if key == 'H'
-    imgnum(i)=imgnum(i-1)+1; %happier later
+    imgnum(k)=imgnum(k-1)+1; %happier later
 end
 if key == 'S'
-    imgnum(i)=imgnum(i-1)-1; %sad earlier
+    imgnum(k)=imgnum(k-1)-1; %sad earlier
 end
 
-fname=getfield(d(imgnum(i)),'name');
+fname=getfield(d(imgnum(k)),'name');
 theImage = imread(fname);
-fname=getfield(d(imgnum(i)),'name');
+fname=getfield(d(imgnum(k)),'name');
 theImage = imread(fname);
 
 baseRect = [0 0 300 300]; %dimensions
