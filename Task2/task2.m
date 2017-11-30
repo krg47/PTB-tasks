@@ -77,15 +77,18 @@
 %11-29 calculating valence should work now. It only checks if H S or N,
 %doesn't calculate how much more happy or sad the next face should be
 
+%11-30 I added a folder with 50 sad to 50 happy called Task2Faces. I'm not
+%entirely sure how we should be calculating what % valence it goes up or
+%down. we also have to store data as continous.
 function task2(subID, blocks, repetitions, ITI, ISI);
 
 addpath /Volumes/gizmo/Workspace/Matt_r
-addpath /Volumes/gizmo/Workspace/Matt_r/GitRepo/Faces
+addpath /Volumes/gizmo/Workspace/Matt_r/GitRepo/Task2/Task2Faces
 addpath(genpath('/Applications/MatlabAddOns/Psychtoolbox-3-PTB_Beta-2016-09-10_V3.0.13/'))
 Screen('Preference', 'SkipSyncTests', 1);
 sca;
 PsychDefaultSetup(2);
-d = dir('Faces/*.png');
+d = dir('Task2Faces/*.jpg');
 %maxconsecutive=2; %number of times the same number is allowed to be in the sequence consecutively
 sequencelength = 7; %set number of terms in sequence
 neutralreps = 2; %number of neutral faces initially shown
@@ -111,11 +114,11 @@ imgnum = zeros(1,repetitions * blocks);
 imgnum(1) = ceil(length(d)/2); %neutral in the middle
 keyresponse = zeros(1,7);
 for j = 1:blocks
-    str = strcat('starting block ', int2str(j))
+    str = strcat('starting block ', int2str(j));
     
     for i = 1:repetitions %how many sequences of 7 we want
-        str = strcat('starting rep ', int2str(i))
-        str = strcat('key: ', key)
+        str = strcat('starting rep ', int2str(i));
+        str = strcat('key: ', key);
         k = (i+(j-1)*repetitions); %Variable k
         
         for numseq = 1:length(sequence) %length of the sequence
@@ -141,7 +144,7 @@ for j = 1:blocks
     if j > 2 % After 2 blocks, determine valence of subsequent face
         
         baseline = (sum(responsetime(1:(repetitions * neutralreps * 7)))) / neutralreps; %Avg of first 2 blocks
-        key = analyze(responsetime, j,repetitions,k, baseline)
+        key = analyze(responsetime, j,repetitions,k, baseline);
     end
 end
 

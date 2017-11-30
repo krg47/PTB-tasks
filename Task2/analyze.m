@@ -1,8 +1,8 @@
 function key=analyze(responsetime, j, repetitions, k, baseline)
 
-starti = responsetime((j - 1) * repetitions * 7);
+starti = (j - 1) * repetitions * 7; %I think we need the +1 here since matlab starts at 1 but im not positive
 endi = starti + (7 * repetitions);
-totaltime = sum(starti : endi);
+totaltime = sum(responsetime(starti : endi))
 
 if j == 3 %After third block, compare to initial baseline
     
@@ -18,9 +18,9 @@ if j == 3 %After third block, compare to initial baseline
     
 else %Otherwise, compare to previous block
     
-    starti = responsetime((j - 2) * repetitions * 7);
-    endi = starti + (7 * repetitions);
-    baseline = sum(starti : endi);
+    starti = (j - 2) * repetitions * 7;
+    endi = starti + 7 * repetitions;
+    baseline = sum(responsetime(starti : endi));
     
     if totaltime < baseline
         key = 'S';
@@ -33,3 +33,4 @@ else %Otherwise, compare to previous block
     end
 end
 
+timeKey=(totaltime-baseline)

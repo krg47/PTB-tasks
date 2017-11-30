@@ -1,15 +1,15 @@
 function [responsetime, imgnum, theImage, fname, keyresponse] = squares(sequence, d, key,numseq,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum,keyresponse,k, repetitions, jj)
 %function to display squares and face
-str = 'responsetime in squares:'
-jhjh = responsetime
+str = 'responsetime in squares:';
+jhjh = responsetime;
 
 if key=='N'
     
     if k > 1
-        imgnum(k) = imgnum(k-1)
+        imgnum(k) = imgnum(k-1);
     else
         
-        imgnum(k)=ceil(length(d)/2)
+        imgnum(k)=ceil(length(d)/2);
     end
 end
 if key == 'H'
@@ -60,7 +60,7 @@ end
 while 1
 [keyIsDown,~,keyCode] = KbCheck;
 if keyIsDown
-    numseq
+    numseq;
     keyresponse(numseq) = find(keyCode);
     break;
 end
@@ -68,7 +68,7 @@ end
 
 endtime=GetSecs;
 
-index = (k -1) * 7 + numseq
+index = (k -1) * 7 + numseq;
 responsetime(index) = endtime - starttime;
 
 %now have it go back to just squares so that face seems to "flash" on and
