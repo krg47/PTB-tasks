@@ -62,6 +62,21 @@
 %valence will be something like % then fearful/happy. store parameters put
 %in for function, need 20x7 for storage
 
+%11-20- Changes we need to make based on meeting: Face valence changes only after a
+%whole block is completed. Calculate new valence by valence = (avg speed of first 2
+%blocks) - (speed of most recent block) / 5. If  valence > 0, face becomes more
+%negative by amount valence. If valence < 0, face becomes more positive by
+%amount valence. 
+
+%Faces shouldnt change until after the third block. Also make sequence start on a random
+%place in the sequence. StartingSpot = randomint modulo 7
+
+%11-27 faces should now only change after block 3 and every block after
+%that. Working on calculating valence correctly from baseline
+
+%11-29 calculating valence should work now. It only checks if H S or N,
+%doesn't calculate how much more happy or sad the next face should be
+
 function task2(subID, blocks, repetitions, ITI, ISI);
 
 addpath /Volumes/gizmo/Workspace/Matt_r
@@ -72,8 +87,8 @@ sca;
 PsychDefaultSetup(2);
 d = dir('Faces/*.png');
 %maxconsecutive=2; %number of times the same number is allowed to be in the sequence consecutively
-sequencelength=7; %set number of terms in sequence
-neutralreps=2; %number of neutral faces initially shown
+sequencelength = 7; %set number of terms in sequence
+neutralreps = 2; %number of neutral faces initially shown
 
 
 %sequence=[3; 4; 1; 2; 3; 1; 4]; %for now just use a given sequence before a sequence bank is given to us
@@ -83,40 +98,55 @@ sequences = csvread('sequences.csv');
 sz = size(sequences);
 rseq = randi(sz(1));
 sequence = sequences(rseq, :);
-sequence=transpose(sequence);
+sequence = transpose(sequence);
+% sequence = circshift(sequence, randi(sequencelength), 1); this rotates sequence by random amount
 
 
 [screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter] = waittostart; %waittostart function
 
-key='N'; %key is N for initial neutral faces
-img(1)=0;
-responsetime=zeros(1,10); %blank vectors
-imgnum=zeros(1,10);
-keyresponse=zeros(1,7);
+key = 'N'; %key is N for initial neutral faces
+img(1) = 0;
+responsetime = zeros(1,repetitions * blocks); %blank vectors
+imgnum = zeros(1,repetitions * blocks);
+imgnum(1) = ceil(length(d)/2); %neutral in the middle
+keyresponse = zeros(1,7);
 for j = 1:blocks
-    for i=1:repetitions %how many sequences of 7 we want
-        k=(i+(j-1)*repetitions); %Variable k
-        for numseq=1:length(sequence) %length of the sequence
-            [responsetime, imgnum, theImage, fname,keyresponse] = squares(sequence, d, key,numseq, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, repetitions); %display function
+    str = strcat('starting block ', int2str(j))
+    
+    for i = 1:repetitions %how many sequences of 7 we want
+        str = strcat('starting rep ', int2str(i))
+        str = strcat('key: ', key)
+        k = (i+(j-1)*repetitions); %Variable k
+        
+        for numseq = 1:length(sequence) %length of the sequence
+            
+            [responsetime, imgnum, theImage, fname,keyresponse] = squares(sequence, d, key,numseq, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, repetitions, j); %display function
+                                                                
             WaitSecs(ITI) %intertrial interval
         end
+        key = 'N';
         valence{k,:} = fname(9);  %how to store?
-        totalResponseTime(k)=sum(responsetime);
-        key=analyze(responsetime, i, neutralreps, totalResponseTime,j,repetitions,k);
+        totalResponseTime(k) = sum(responsetime);
+        
         %convert to cells
-        responseTimeCell{k,:}=responsetime(1:length(sequence)); %slightly weird format otherwise would have extra 0s
-        totalResponseTimeCell{k,:}=totalResponseTime(k);
-        keyresponseCell{k,:}=transpose(keyresponse);  %store keyresponse as a column vector
-        imgCell{k,:}=imgnum(k);
-        sequenceCell{k,:}=sequence;
-        rightorwrongCell{k,:}=(transpose(keyresponse)==(sequence+29)); %add 29 for ascii
-        WaitSecs(ISI-ITI) %interstimulus interval, subtract ITI because it already waited ITI
+        responseTimeCell{k,:} = responsetime(1:length(sequence)); %slightly weird format otherwise would have extra 0s
+        totalResponseTimeCell{k,:} = totalResponseTime(k);
+        keyresponseCell{k,:} = transpose(keyresponse);  %store keyresponse as a column vector
+        imgCell{k,:} = imgnum(k);
+        sequenceCell{k,:} = sequence;
+        rightorwrongCell{k,:} = (transpose(keyresponse)==(sequence+29)); %add 29 for ascii
+        WaitSecs(ISI - ITI) %interstimulus interval, subtract ITI because it already waited ITI
+    end
+    
+    if j > 2 % After 2 blocks, determine valence of subsequent face
+        
+        baseline = (sum(responsetime(1:(repetitions * neutralreps * 7)))) / neutralreps; %Avg of first 2 blocks
+        key = analyze(responsetime, j,repetitions,k, baseline)
     end
 end
 
-datafile=strcat('subject_',subID); %makes filename for results
+datafile = strcat('subject_',subID); %makes filename for results
 save(datafile, 'responseTimeCell','totalResponseTimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell') %also need image names and valence %
-
 
 sca;
 end

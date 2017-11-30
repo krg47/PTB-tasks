@@ -5,12 +5,13 @@
 %After those are inserted, click run
 %in the folder will appear data with the name "subject_subID.mat"
 %add psychtoolbox path?
+% "01F_HA_050_C" is how the images are saved
 
 
 clear;
 subID='1234'; 
-blocks = 2;
-repetitions=10;
+blocks = 4;
+repetitions=4;
 ITI=0; %inter trial interval
 ISI=1.25; %inter stimulus interval
 

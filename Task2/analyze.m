@@ -1,33 +1,35 @@
-function key=analyze(responsetime, i, neutralreps, totalResponseTime,j,repetitions,k)
-avgResponseTime= sum(totalResponseTime)/(i+((j-1)*repetitions));
-if j==1 %first block
-if k<(neutralreps+1) %start neutral to get initial reaction times
-    key='N'
-end
-if k>1
-    if (totalResponseTime(i) - avgResponseTime)>0
-        key = 'H' %goes to happy
-    end
-    if (totalResponseTime(i) - avgResponseTime)<0
-        key = 'S' %goes to sad
-    end
-    if (totalResponseTime(i) - avgResponseTime)==0  %what to do if equal?
-        key = 'N' %goes to neutral
-    end
-end
-end
+function key=analyze(responsetime, j, repetitions, k, baseline)
 
-if j==2 %second block
-    if (totalResponseTime(i+repetitions) - avgResponseTime)>0
-        key = 'S' %goes to happy
-    end
-    if (totalResponseTime(i+repetitions) - avgResponseTime)<0
-        key = 'H' %goes to sad
-    end
-    if (totalResponseTime(i+repetitions) - avgResponseTime)==0  %what to do if equal?
-        key = 'N' %goes to neutral
-    end
-end
+starti = responsetime((j - 1) * repetitions * 7);
+endi = starti + (7 * repetitions);
+totaltime = sum(starti : endi);
+
+if j == 3 %After third block, compare to initial baseline
     
+    if totaltime < baseline
+        key = 'S';
+    end
+    if totaltime > baseline
+        key = 'H';
+    end
+    if totaltime == baseline
+        key = 'N';
+    end
+    
+else %Otherwise, compare to previous block
+    
+    starti = responsetime((j - 2) * repetitions * 7);
+    endi = starti + (7 * repetitions);
+    baseline = sum(starti : endi);
+    
+    if totaltime < baseline
+        key = 'S';
+    end
+    if totaltime > baseline
+        key = 'H';
+    end
+    if totaltime == baseline
+        key = 'N';
+    end
 end
 
