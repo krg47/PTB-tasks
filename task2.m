@@ -1,5 +1,6 @@
-=%assuming there is a list of faces that start at 1 = most positive and 100
-%=1234 most
+%assuming there is a list of faces that start at 1 = most positive and 100
+%=1234
+%most423=
 %negative
 %not entirely sure how the process should work. what faces? look at
 %previous several blocks?
@@ -24,7 +25,7 @@ sequence=[33, 31, 32, 32, 31, 30, 33]; %this is 4 2 3 3 2 1 4
 key='N'; %key is N for initial neutral faces
 img(1)=0;
 for i=1:(repetitions+1)
-[responsetime(i), img(i)] = facedisplay(sequence, d, key,i,img, window); %display function
+[responsetime(i), img(i), theImage] = squares(sequence, d, key,i, img, window); %display function
 key=analyze(responsetime, i, neutralreps);
 end
 %face analysis
@@ -36,3 +37,4 @@ KbStrokeWait;
     % Clear the
     % screen
     sca;
+    %=
