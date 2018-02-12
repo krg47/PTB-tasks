@@ -66,7 +66,7 @@
 %whole block is completed. Calculate new valence by valence = (avg speed of first 2
 %blocks) - (speed of most recent block) / 5. If  valence > 0, face becomes more
 %negative by amount valence. If valence < 0, face becomes more positive by
-%amount valence. 
+%amount valence.
 
 %Faces shouldnt change until after the third block. Also make sequence start on a random
 %place in the sequence. StartingSpot = randomint modulo 7
@@ -80,15 +80,128 @@
 %11-30 I added a folder with 50 sad to 50 happy called Task2Faces. I'm not
 %entirely sure how we should be calculating what % valence it goes up or
 %down. we also have to store data as continous.
-function task2(subID, blocks, repetitions, ITI, ISI);
 
-addpath /Volumes/gizmo/Workspace/Matt_r
-addpath /Volumes/gizmo/Workspace/Matt_r/GitRepo/Task2/Task2Faces
-addpath(genpath('/Applications/MatlabAddOns/Psychtoolbox-3-PTB_Beta-2016-09-10_V3.0.13/'))
+%1-22 I think the images should get happier/sadder by the correct
+%percentage now. Haven't tested it much because we don't have the images
+%ready yet. Our current setup relies on each face having a folder that
+%starts with the happiest faces and ends wiht the saddest faces, with the
+%neutral face in the middle
+
+%1-26 TODO: make an example use of this function. If # of arguments is less than
+%the number taken, open a dialogue box prompting for gender, race, blocks,
+%etc.  Calucate delta by %change in time = %change in face. Switch from
+%"reverse learning" to "forward learning" in the middle of the task.
+%Reverse learning should always come first. Number of blocks should always
+%be even. # of blocks must be > 3. Use only relative filepaths. The
+%function should change directories for you. Should be runnable immediatley
+%after unzipping.
+
+% 1-31 If you run the function without all the arguments, a dialog box will
+% ask for the parameters. Input validation should work. Need to incorporate
+% the forward learning blocks. ie after doing the reverse learning blocks,
+% switch so that faster = happier. Once we get the images merged we can
+% also use the gender and race options.
+
+%2/9-do we want total response time to just keep adding as in seconds from
+%the start? or just time per block
+
+function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, gender, race, emotion);
+
+validInput = false;
+
+if nargin < 8
+    while ~validInput
+        prompt = {'SubjectID:','Foward learning blocks:', 'Reverse learning blocks:', 'Repetitions:', 'ITI:', 'ISI:', 'Gender', 'Race:', 'Emotion'};
+        dlg_title = 'Configure Task';
+        num_lines = 1;
+        def = {'1234','8', '4', '4', '0', '1.25', 'F', 'W', 'NS'}; %Default is Neutral/sad 
+        answer = inputdlg(prompt,dlg_title,num_lines,def);
+        
+        if isempty(answer),return,end;
+        
+        if str2num(answer{2}) < 3
+            uiwait(warndlg('Must be at least 3 Reverse learning blocks'));
+        elseif (mod((str2num(answer{2}) + str2num(answer{3})), 2) ~= 0)
+            uiwait(warndlg('Must be an even number of blocks'));
+        elseif str2num(answer{4}) <= 1
+            uiwait(warndlg('Must have > 1 repetitions'));
+        elseif isnan(str2double(answer{5})) | isnan(str2double(answer{6}))
+            uiwait(warndlg('Invalid ITI or ISI'));
+        elseif ~(or(strcmp(answer{7}, 'F'), strcmp(answer{7}, 'M')))
+            uiwait(warndlg('Invalid Gender'));
+        elseif answer{8} ~= 'W' & answer{8} ~= 'B'
+            uiwait(warndlg('Invalid Race'));
+        elseif answer{9} ~= 'NS' & answer{9} ~= 'NF' & answer{9} ~= 'HS'
+            uiwait(warndlg('Invalid Emotion spectrum. Must be NS, NF, or HS'));
+        else
+            validInput = true
+            subID = answer{1}
+            reverseblocks = str2num(answer{2})
+            forwardblocks = str2num(answer{3})
+            repetitions = str2num(answer{4})
+            ITI = str2double(answer{5})
+            ISI = str2double(answer{6})
+            gender = answer{7}
+            race = answer{8}
+            emotion = answer{9}
+        end
+    end
+end
+
+% addpath /Volumes/gizmo/Workspace/Matt_r
+% addpath /Volumes/gizmo/Workspace/Matt_r/GitRepo/Task2/Task2Faces
+% addpath(genpath('/Applications/MatlabAddOns/Psychtoolbox-3-PTB_Beta-2016-09-10_V3.0.13/'))
 Screen('Preference', 'SkipSyncTests', 1);
 sca;
 PsychDefaultSetup(2);
-d = dir('Task2Faces/*.jpg');
+dirStr = '';
+
+if gender == 'M'
+    dirStr = 'Faces/Male/'
+elseif gender == 'F'
+    dirStr = 'Faces/Female/'
+end
+
+if race == 'W'
+    dirStr = strcat(dirStr, 'White/');
+elseif race == 'B'
+    dirStr = strcat(dirStr, 'Black/');
+end
+
+
+
+% dirStr = 'Faces/Female/White/'
+% emotion = 'NS'
+
+
+tempd = dir(dirStr);
+folders = {tempd.name}'
+
+lst = cellfun(@(x)isempty((regexp(x, '^\.'))),folders, 'un', 0)
+lst = cellfun(@(x,y)x(x & y),folders, lst, 'un', 0)
+lst = lst(~cellfun('isempty',lst))
+
+whichFace = randi(size(lst));
+dirStr = (strcat(dirStr, lst(whichFace), '/', emotion, '/'))%Navigate to random subject's folder of this gender and race
+dirStr = dirStr{1}
+
+tempd = dir(dirStr)
+folders = {tempd.name}';
+
+lst = cellfun(@(x)isempty((regexp(x, '^\.'))),folders, 'un', 0);
+lst = cellfun(@(x,y)x(x & y),folders, lst, 'un', 0);
+lst = lst(~cellfun('isempty',lst))
+
+dirStr = strcat(dirStr, lst{1}, '/')
+
+d = dir(dirStr)
+
+lst = arrayfun(@(x)isempty((regexp(x.name, '^\.'))), d, 'un', 0)
+lst = arrayfun(@(x,y)x.name(x.name & y),d, cell2mat(lst), 'un', 0)
+d = d(~cellfun('isempty',lst))
+
+
+% d = dir('Task2Faces/42M_SA_C_crop/*.jpg');
 %maxconsecutive=2; %number of times the same number is allowed to be in the sequence consecutively
 sequencelength = 7; %set number of terms in sequence
 neutralreps = 2; %number of neutral faces initially shown
@@ -109,13 +222,18 @@ sequence = transpose(sequence);
 
 key = 'N'; %key is N for initial neutral faces
 img(1) = 0;
-responsetime = zeros(1,repetitions * blocks); %blank vectors
-imgnum = zeros(1,repetitions * blocks);
+responsetime = zeros(1,repetitions * reverseblocks); %blank vectors
+imgnum = zeros(1,repetitions * reverseblocks);
 imgnum(1) = ceil(length(d)/2); %neutral in the middle
 keyresponse = zeros(1,7);
-for j = 1:blocks
+delta = 0; %amount up or down to change the mood
+totalblocks = reverseblocks + forwardblocks;
+reverse = true;
+for j = 1:totalblocks
     str = strcat('starting block ', int2str(j));
-    
+    if j > reverseblocks
+        reverse = false;
+    end
     for i = 1:repetitions %how many sequences of 7 we want
         str = strcat('starting rep ', int2str(i));
         str = strcat('key: ', key);
@@ -123,16 +241,17 @@ for j = 1:blocks
         
         for numseq = 1:length(sequence) %length of the sequence
             
-            [responsetime, imgnum, theImage, fname,keyresponse] = squares(sequence, d, key,numseq, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, repetitions, j); %display function
-                                                                
+            [responsetime, imgnum, theImage, fname,keyresponse] = squares(sequence, d, key,numseq, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, delta); %display function
+            
             WaitSecs(ITI) %intertrial interval
         end
         key = 'N';
-        valence{k,:} = fname(9);  %how to store?
+        valence{k,:} = fname(5);  %how to store?
         totalResponseTime(k) = sum(responsetime);
         
         %convert to cells
-        responseTimeCell{k,:} = responsetime(1:length(sequence)); %slightly weird format otherwise would have extra 0s
+        
+        responseTimeCell{k,:} = responsetime((length(responsetime)-6):length(responsetime)); %slightly weird format otherwise would have extra 0s
         totalResponseTimeCell{k,:} = totalResponseTime(k);
         keyresponseCell{k,:} = transpose(keyresponse);  %store keyresponse as a column vector
         imgCell{k,:} = imgnum(k);
@@ -142,9 +261,9 @@ for j = 1:blocks
     end
     
     if j > 2 % After 2 blocks, determine valence of subsequent face
-        
-        baseline = (sum(responsetime(1:(repetitions * neutralreps * 7)))) / neutralreps; %Avg of first 2 blocks
-        key = analyze(responsetime, j,repetitions,k, baseline);
+        a='aaaaaa'
+        baseline = (sum(responsetime(1:(repetitions * neutralreps * 7)))) / neutralreps %Avg of first 2 blocks
+        [key, delta] = analyze(responsetime, j,repetitions,k, baseline, reverse);
     end
 end
 
