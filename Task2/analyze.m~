@@ -1,21 +1,60 @@
-function key=analyze(responsetime, i, neutralreps, totalResponseTime,j)
-avgResponseTime= sum(totalResponseTime)/i;
-if j==1
-if i<(neutralreps+1) %start neutral to get initial reaction times
-    key='N'
-end
-if i>1
-    if (totalResponseTime(i) - avgResponseTime)>0
-        key = 'H' %goes to happy
+function [key, delta] = analyze(responsetime, j, repetitions, k, baseline, reverse)
+
+delta = 0;
+starti = (j - 1) * repetitions * 7;
+endi = starti + (7 * repetitions);
+totaltime = sum(responsetime(starti : endi));
+
+if j >= 3 %After third block, compare to initial baseline
+    
+    diff = (totaltime - baseline);
+    perc = (diff / baseline) * 100;
+    if reverse==true
+        delta = -2* (floor(perc / 5));
+        if totaltime < baseline
+            key = 'S';
+        end
+        if totaltime > baseline
+            key = 'H';
+        end
+        if totaltime == baseline
+            key = 'N';
+        end
     end
-    if (totalResponseTime(i) - avgResponseTime)<0
-        key = 'S' %goes to sad
+    
+    if reverse==false
+        delta = 2* (floor(perc / 5));
+        if totaltime < baseline
+            key = 'H';
+        end
+        if totaltime > baseline
+            key = 'S';
+        end
+        if totaltime == baseline
+            key = 'N';
+        end
     end
-    if (totalResponseTime(i) - avgResponseTime)==0  %what to do if equal?
-        key = 'N' %goes to neutral
+    
+    
+else %Otherwise, compare to previous block
+       
+    starti = (j - 2) * repetitions * 7;
+    endi = starti + 7 * repetitions;
+    baseline = sum(responsetime(starti : endi));
+    
+    diff = floor(totaltime - baseline);
+    perc = (diff / baseline) * 100;
+    delta = 2 * floor(perc / 5);
+    
+    if totaltime < baseline
+        key = 'S';
     end
-end
+    if totaltime > baseline
+        key = 'H';
+    end
+    if totaltime == baseline
+        key = 'N';
+    end
 end
 
-if j==2
-
+timeKey=(totaltime-baseline)

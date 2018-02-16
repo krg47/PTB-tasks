@@ -1,6 +1,5 @@
 function sequence=sequencer(maxconsecutive)
 
-
 %Code for making random sequence file
 % for j  = 1:100
 %     tempsequence = [];
