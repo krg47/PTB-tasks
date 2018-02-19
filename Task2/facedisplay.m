@@ -1,4 +1,4 @@
-function [responsetime, imgnum] = facedisplay(sequence, d, key,i, img, window)
+function [responsetime, imgnum] = facedisplay(sequence, d, key, i, img, window)
 
 if key == 'N'
     imgnum = ceil(length(d)/2);
@@ -9,7 +9,7 @@ end
 if key == 'S'
     imgnum = img(i-1)-1; %sad earlier
 end
-fname=getfield(d(imgnum),'name');
+fname = getfield(d(imgnum),'name');
 theImage = imread(fname);
 imageTexture = Screen('MakeTexture', window, theImage);
 Screen('DrawTextures', window, imageTexture);

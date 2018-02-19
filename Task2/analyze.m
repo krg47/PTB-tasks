@@ -10,7 +10,7 @@ if j >= 3 %After third block, compare to initial baseline
     diff = (totaltime - baseline);
     perc = (diff / baseline) * 100;
     if reverse == true
-        delta = -2* (floor(perc / 5));
+        delta = -2 * (floor(perc / 5));
         if totaltime < baseline
             key = 'S';
         end

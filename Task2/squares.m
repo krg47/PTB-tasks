@@ -40,7 +40,7 @@ end
 
 fpath = getfield(d(imgnum(k)), 'folder')
 fname = getfield(d(imgnum(k)),'name')
-theImage = imread(strcat(fpath,'/',fname));
+theImage = imread(strcat(fpath, filesep, fname));
 
 baseRect = [0 0 300 300]; %dimensions
 squareXpos = [screenXpixels * 0.125 screenXpixels * 0.375 screenXpixels * .625 screenXpixels * .875]; % Screen X positions of our three rectangles

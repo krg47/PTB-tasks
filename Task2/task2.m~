@@ -1,5 +1,4 @@
 
-
 function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, sex, race, emotion);
 
 validInput = false;
@@ -58,45 +57,45 @@ PsychDefaultSetup(2);
 dirStr = '';
 
 if sex == 'M'
-    dirStr = 'Faces/Male/'
+    dirStr = ['Faces' filesep 'Male' filesep];
 elseif sex == 'F'
-    dirStr = 'Faces/Female/'
+    dirStr = ['Faces' filesep 'Female' filesep];
 end
 
 if race == 'W'
-    dirStr = strcat(dirStr, 'White/');
+    dirStr = strcat(dirStr, 'White', filesep);
 elseif race == 'B'
-    dirStr = strcat(dirStr, 'Black/');
+    dirStr = strcat(dirStr, 'Black', filesep);
 end
 
 tempd = dir(dirStr);
-folders = {tempd.name}'
-
-% Exclude hidden files
-lst = cellfun(@(x)isempty((regexp(x, '^\.'))),folders, 'un', 0)
-lst = cellfun(@(x,y)x(x & y),folders, lst, 'un', 0)
-lst = lst(~cellfun('isempty',lst))
-
-whichFace = randi(size(lst));
-dirStr = (strcat(dirStr, lst(whichFace), '/', emotion, '/')) %Navigate to random subject's folder of this gender and race
-dirStr = dirStr{1}
-
-tempd = dir(dirStr)
 folders = {tempd.name}';
 
 % Exclude hidden files
 lst = cellfun(@(x)isempty((regexp(x, '^\.'))),folders, 'un', 0);
 lst = cellfun(@(x,y)x(x & y),folders, lst, 'un', 0);
-lst = lst(~cellfun('isempty',lst))
+lst = lst(~cellfun('isempty',lst));
 
-dirStr = strcat(dirStr, lst{1}, '/')
+whichFace = randi(size(lst));
+dirStr = (strcat(dirStr, lst(whichFace), filesep, emotion, filesep)); %Navigate to random subject's folder of this gender and race
+dirStr = dirStr{1};
 
-d = dir(dirStr)
+tempd = dir(dirStr);
+folders = {tempd.name}';
 
 % Exclude hidden files
-lst = arrayfun(@(x)isempty((regexp(x.name, '^\.'))), d, 'un', 0)
-lst = arrayfun(@(x,y)x.name(x.name & y),d, cell2mat(lst), 'un', 0)
-d = d(~cellfun('isempty',lst)) % d = range of faces 
+lst = cellfun(@(x)isempty((regexp(x, '^\.'))),folders, 'un', 0);
+lst = cellfun(@(x,y)x(x & y),folders, lst, 'un', 0);
+lst = lst(~cellfun('isempty',lst));
+
+dirStr = strcat(dirStr, lst{1}, filesep);
+
+d = dir(dirStr);
+
+% Exclude hidden files
+lst = arrayfun(@(x)isempty((regexp(x.name, '^\.'))), d, 'un', 0);
+lst = arrayfun(@(x,y)x.name(x.name & y),d, cell2mat(lst), 'un', 0);
+d = d(~cellfun('isempty',lst)); % d = range of faces 
 
 
 sequencelength = 7; %set number of terms in sequence
@@ -154,7 +153,7 @@ for j = 1:totalblocks
         imgCell{k,:} = imgnum(k);
         sequenceCell{k,:} = sequence;
         rightorwrongCell{k,:} = (transpose(keyresponse)==(sequence+29)); %add 29 for ascii
-        WaitSecs(ITI - ISI) %interstimulus interval, subtract ITI because it already waited ITI
+        WaitSecs(ITI - ISI) % subtract ISI because it already waited ISI
     end
     
     if j > 2 % After 2 blocks, determine valence of subsequent face
@@ -162,20 +161,24 @@ for j = 1:totalblocks
         baseline = (sum(responsetime(1:(repetitions * neutralreps * 7)))) / neutralreps %Avg of first 2 blocks
         [key, delta] = analyze(responsetime, j,repetitions,k, baseline, reverse);
     end
-    WaitSecs(IBI);
+ 
+    WaitSecs(IBI); %Inter block interval
 end
 
-%to get cell with all response times for keypresses
-totreps=length(responsetime)/7;
-for counter=1:totreps
-    start=counter*7-6
-    final=start+6;
-    responses=transpose(responsetime(start:final));
+%Cell with all response times for keypresses
+
+totreps = length(responsetime) / 7;
+for counter = 1 : totreps
+    start = counter * 7 - 6
+    final = start + 6;
+    responses = transpose(responsetime(start:final));
     responseTimeCell{counter,:} = responses;
 end
     
 datafile = strcat('subject_',subID); %makes filename for results
-save(datafile, 'responseTimeCell','totalResponseTimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell') %also need image names and valence %
+
+% Save data
+save(datafile, 'responseTimeCell','totalResponseTimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell')
 
 sca;
 end

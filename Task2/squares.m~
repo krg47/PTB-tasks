@@ -40,7 +40,7 @@ end
 
 fpath = getfield(d(imgnum(k)), 'folder')
 fname = getfield(d(imgnum(k)),'name')
-theImage = imread(strcat(fpath,'/',fname));
+theImage = imread(strcat(fpath, fil,fname));
 
 baseRect = [0 0 300 300]; %dimensions
 squareXpos = [screenXpixels * 0.125 screenXpixels * 0.375 screenXpixels * .625 screenXpixels * .875]; % Screen X positions of our three rectangles
@@ -65,12 +65,13 @@ imageWidths = imageHeights .* aspectRatio;
 dstRects = zeros(4, 1);
 sequence(numseq);
 
+% Draw rectangles
 theRect = [0 0 imageWidths(1) imageHeights(1)];
 dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * (.25*sequence(numseq)-.125),...
     screenYpixels / 2);
 
 Screen('DrawTextures', window, imageTexture, [], dstRects);
-starttime=GetSecs;
+starttime = GetSecs;
 Screen('Flip', window);
 
 while KbCheck; %make sure keys are released
@@ -84,12 +85,10 @@ if keyIsDown
 end
 end
 
-endtime=GetSecs;
+endtime = GetSecs;
 
 index = (k -1) * 7 + numseq
 responsetime(index) = endtime - starttime
 
-%now have it go back to just squares so that face seems to "flash" on and
-%off, this can not happen if ITI=0
 Screen('FillRect', window, [1 1 1], allRects, penWidthPixels);
 Screen('Flip', window);
