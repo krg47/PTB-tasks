@@ -76,7 +76,7 @@ lst = cellfun(@(x)isempty((regexp(x, '^\.'))),folders, 'un', 0);
 lst = cellfun(@(x,y)x(x & y),folders, lst, 'un', 0);
 lst = lst(~cellfun('isempty',lst));
 
-whichFace = randi(size(lst));
+whichFace = randi(length(lst));
 dirStr = (strcat(dirStr, lst(whichFace), filesep, emotion, filesep)); %Navigate to random subject's folder of this gender and race
 dirStr = dirStr{1};
 
