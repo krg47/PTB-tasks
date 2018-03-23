@@ -17,12 +17,12 @@ function file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i
         
         a = MaleNames(maleran(1));  %temporary for names
         b = MaleNames(maleran(2));
-        DrawFormattedText(window, a{1}, xCenter-530,...  %centering names
-            screenYpixels * 0.82, [1 1 1]);
+        DrawFormattedText(window, a{1}, xCenter-300,...  %centering names
+            screenYpixels * 0.95, [1 1 1]);
         Screen('TextSize', window, 90);
         Screen('TextFont', window, 'Times');
-        DrawFormattedText(window, b{1}, xCenter+300,...
-            screenYpixels * 0.82, [1 1 1]);
+        DrawFormattedText(window, b{1}, xCenter+120,...
+            screenYpixels * 0.95, [1 1 1]);
     end
     
     if file(2) == 'F'  %if file is female
@@ -35,12 +35,14 @@ function file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i
         a = FemaleNames(femaleran(1));  %temporary for names
         b = FemaleNames(femaleran(2));
 
-        DrawFormattedText(window, a{1}, xCenter-530,...
-            screenYpixels * 0.82, [1 1 1]);
+        DrawFormattedText(window, a{1}, xCenter-300,...
+            screenYpixels * 0.95, [1 1 1]);
         Screen('TextSize', window, 90);
         Screen('TextFont', window, 'Times');
         a = FemaleNames(2);
-        DrawFormattedText(window, b{1}, xCenter+300,...
-            screenYpixels * 0.82, [1 1 1]);
+        DrawFormattedText(window, b{1}, xCenter+120,...
+            screenYpixels * 0.95, [1 1 1]);
     end
+    
+    
 end

@@ -2,7 +2,7 @@ function [imgnum,gender,valence,response,responsetime] = experiment(MaleNames, F
 
 % Number of names
 namenum = length(MaleNames);
-switchingpoint = floor(repetitions / 2) % The point at which the pattern switches
+switchingpoint = floor(repetitions / 2); % The point at which the pattern switches
 facenumber = length(d);
 d = dir(d);
 
@@ -54,7 +54,7 @@ end
 WaitSecs(ISI);
 
 % Randomly choose left/right happy/sad
-x = rand
+x = rand;
 if x < .5
     H = 80;
     S = 79;
@@ -64,8 +64,8 @@ if x >= .5
     S = 80;
 end
 
-faces = {d.name}; 
-i = 0
+faces = {d.name};
+i = 0;
 
 while true %Make sure first face is neutral
     idx = randi(length(faces));
@@ -96,11 +96,14 @@ faces{idx} = ''; %Eliminate the used face
 
 faces(cellfun('isempty',faces)) = []; %Clear out used faces
 
+
+
 % Save first face data
 imgnum{1} = str2num(strcat(file(3), file(4)));
 sex{1} = file(2);
 valence{1} = file(5);
 group{1} = file(1);
+names{1}=file(1:4);
 
 Screen('Flip', window);
 
@@ -109,7 +112,7 @@ Screen('Flip', window);
 i = 1;
 while i < repetitions + 1
     
-    % Switch left/right if at the switching point   
+    % Switch left/right if at the switching point
     if i == switchingpoint
         
         if H == 79
@@ -140,13 +143,14 @@ while i < repetitions + 1
             z = rand; %Random number to determine if the next face will follow the pattern
             if v == 80 || v == 79
                 
-                if v == H || (v == S && z > prob) %show neutral (or happy)
+                if (v == H && z<=prob) || (v == S && z > prob) %show neutral (or happy)
+                   
                     if v == 80
                         response{i,:} ='L'; %record left or right
                     else
                         response{i,:} = 'R';
                     end
-                             
+                    
                     while true %Make sure face is positive (Happy or Neutral)
                         idx = randi(length(faces));
                         fname = faces{idx};
@@ -156,24 +160,25 @@ while i < repetitions + 1
                     end
                     
                     %Display face
+                    
                     file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels, emotion);
                     
                     % Make sure we don't show the same person's face twice
                     if idx ~= 1 %If it's not the first face, check the face before it
-
+                        
                         if faces{idx - 1}(1:4) == fname(1:4)
                             faces{idx - 1} = '';
                         end
                     end
                     if idx ~= length(faces)  %If it's not the last face, check the face after it
-
+                        
                         if faces{idx + 1}(1:4) == fname(1:4)
                             faces{idx + 1} = '';
                         end
                     end
                     
                     faces{idx} = '';
-
+                    
                     faces(cellfun('isempty',faces)) = []; %Clear out used faces
                     
                     if length(faces) < 2 %There are no faces left
@@ -181,7 +186,8 @@ while i < repetitions + 1
                     end
                 end
                 
-                if v == S || (v == H && z > prob) %Negative face next
+               if (v == S && z<=prob) || (v == H && z > prob) %Negative face next
+                   
                     if v == 80
                         response{i,:} ='L'; %record left or right
                     else
@@ -191,35 +197,36 @@ while i < repetitions + 1
                     while true %Make sure face is negative (sad or fearful)
                         idx = randi(length(faces));
                         fname = faces{idx};
-                        if fname(5) == 'S' || fname(5) == 'F'
+                        if fname(5) == 'S' || fname(5) == 'A'
                             break;
                         end
                     end
-
+                    
                     %Display the face
+                   
                     file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels, emotion);
                     
                     %Make sure we don't show the same person's face twice
                     if idx ~= 1 %If it's not the first face, check the face before it
-
+                        
                         if faces{idx - 1}(1:4) == fname(1:4)
                             faces{idx - 1} = '';
                         end
                     end
                     if idx ~= length(faces)  %If it's not the last face, check the face after it
-
+                        
                         if faces{idx + 1}(1:4) == fname(1:4)
                             faces{idx + 1} = '';
                         end
                     end
                     faces{idx} = '';
-
+                    
                     faces(cellfun('isempty',faces)) = []; %Clear out used faces
                     
                     if length(faces) < 2 %There are no faces left
                         faces = {d.name}; % reset face list
                     end
-                   
+              
                 end
                 WaitSecs(ISI);  %Wait time between faces
                 
@@ -237,16 +244,17 @@ while i < repetitions + 1
     i = i + 1; %iterate
     if i < repetitions + 1
         
-%       Save face data
+        %       Save face data
         imgnum{i,:} = str2num(strcat(file(3), file(4)));
         sex{i,:} = file(2);
         valence{i,:} = file(5);
         group{i,:} = file(1);
-     
+        names{i,:} = fname(1:4);
     end
     
-    filename = strcat('test_',subID,'.mat');
-    save(filename,'group','imgnum','sex','valence','response','responsetime');
+    
+    filename = strcat('subject_',subID,'.mat');
+    save(filename,'group','imgnum','sex','valence','response','responsetime','names');
     
 end
 KbStrokeWait;

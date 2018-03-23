@@ -9,8 +9,8 @@ if nargin < 10
         
         % Default values       
         def = {'1234','20', '1.25','1', 'NS'}; %Default is Neutral/sad 
-        answer = inputdlg(prompt, dlg_title, num_lines, def);
-        
+        answer = inputdlg(prompt, dlg_title, num_lines, def)
+        answer{5}~='NS'
         if isempty(answer), return, end;
         
 %          Input validation
@@ -18,8 +18,8 @@ if nargin < 10
             uiwait(warndlg('Must have > 1 repetitions'));
         elseif isnan(str2double(answer{3}))
             uiwait(warndlg('Invalid ITI, ISI or IBI'));
-        elseif answer{5} ~= 'NS' & answer{4} ~= 'NF' & answer{4} ~= 'HS'
-            uiwait(warndlg('Invalid Emotion spectrum. Must be NS, NF, or HS'));
+%         elseif (answer{5} ~= 'NS') & (answer{5} ~= 'NF') & (answer{5} ~= 'HS')
+%             uiwait(warndlg('Invalid Emotion spectrum. Must be NS, NF, or HS'));
         else
             
 %           Set values
@@ -32,3 +32,4 @@ if nargin < 10
         end
     end
 end
+

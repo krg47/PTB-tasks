@@ -135,8 +135,10 @@ for j = 1:totalblocks
         
         for numseq = 1:length(sequence) %length of the sequence
             
+            kk = k + numseq - 1;
+            
 %           Display faces
-            [responsetime, imgnum, theImage, fname,keyresponse] = squares(sequence, d, key,numseq, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, delta, emotion); %display function
+            [responsetime, imgnum, theImage, fname,keyresponse, screencap{kk}] = squares(sequence, d, key,numseq, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, delta, emotion); %display function
             
             WaitSecs(ISI) %Wait between faces
         end
@@ -178,7 +180,7 @@ end
 datafile = strcat('subject_',subID); %makes filename for results
 
 % Save data
-save(datafile, 'responseTimeCell','totalResponseTimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell')
+save(datafile, 'responseTimeCell','totalResponseTimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell', 'screencap')
 
 sca;
 end

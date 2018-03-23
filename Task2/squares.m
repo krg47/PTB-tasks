@@ -1,4 +1,4 @@
-function [responsetime, imgnum, theImage, fname, keyresponse] = squares(sequence, d, key,numseq,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion)
+function [responsetime, imgnum, theImage, fname, keyresponse, screencap] = squares(sequence, d, key,numseq,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion)
 %function to display squares and face
 
 neutralIndex = 1; %first image is neutral
@@ -89,6 +89,8 @@ endtime = GetSecs;
 
 index = (k -1) * 7 + numseq
 responsetime(index) = endtime - starttime
+
+screencap = Screen('GetImage', window);
 
 Screen('FillRect', window, [1 1 1], allRects, penWidthPixels);
 Screen('Flip', window);

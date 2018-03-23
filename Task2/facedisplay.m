@@ -28,6 +28,8 @@ for i = 1:length(sequence) %loop checks all of keys in sequence are pressed
             end
         end
     end
+    
+    
 end
 endtime = GetSecs;
 responsetime = endtime - starttime;
