@@ -1,4 +1,4 @@
-function [responsetime, imgnum, theImage, fname, keyresponse, screencap] = squares(sequence, d, key,numseq,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion)
+function [responsetime, imgnum, theImage, fname, keyresponse] = squares(newseq, d, key,numseq,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion,violationrate)
 %function to display squares and face
 
 neutralIndex = 1; %first image is neutral
@@ -58,16 +58,19 @@ imageTexture = Screen('MakeTexture', window, theImage);
 [s1, s2, s3] = size(theImage); %size of face
 aspectRatio = s2 / s1; %find aspect ratio of face
 
-heightScalers = .25; %scales everything down to .25 x
+heightScalers = .29; %scales everything down to .25 x
 imageHeights = screenYpixels .* heightScalers;
 imageWidths = imageHeights .* aspectRatio;
 
 dstRects = zeros(4, 1);
-sequence(numseq);
+
 
 % Draw rectangles
 theRect = [0 0 imageWidths(1) imageHeights(1)];
-dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * (.25*sequence(numseq)-.125),...
+
+
+
+dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * (.25*newseq(numseq)-.125),...
     screenYpixels / 2);
 
 Screen('DrawTextures', window, imageTexture, [], dstRects);
@@ -90,7 +93,7 @@ endtime = GetSecs;
 index = (k -1) * 7 + numseq
 responsetime(index) = endtime - starttime
 
-screencap = Screen('GetImage', window);
+
 
 Screen('FillRect', window, [1 1 1], allRects, penWidthPixels);
 Screen('Flip', window);

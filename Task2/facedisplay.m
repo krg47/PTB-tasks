@@ -12,6 +12,16 @@ end
 fname = getfield(d(imgnum),'name');
 theImage = imread(fname);
 imageTexture = Screen('MakeTexture', window, theImage);
+[s1, s2, s3] = size(theImage); %size of face
+aspectRatio = s2 / s1; %find aspect ratio of face
+
+heightScalers = 1.4; %scales everything up/down
+faceHeights = screenYpixels .* heightScalers;
+faceWidths = faceHeights .* aspectRatio;
+theRect = [0 0 faceWidths(1) faceHeights(1)];
+
+
+
 Screen('DrawTextures', window, imageTexture);
 Screen('Flip', window);
 

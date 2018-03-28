@@ -1,12 +1,6 @@
-function [task, faces] = maketask(engagedisengage, startingemotion, nextemotion, cogoremo, easyorhard, siderange, faces, allfaces,screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter);
+function [task, faces] = maketask(engagedisengage, startingemotion, nextemotion, cogoremo, easyorhard, siderange, faces, allfaces, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter);
 
-%for testing a specific question
-t.cogoremo='Emotional';
- t.easyorhard='Easy';
-%end testing
-
-
-t.engagedisengage = engagedisengage;
+     t.engagedisengage = engagedisengage;
      t.startingemotion = startingemotion;
      t.nextemotion = nextemotion;
      t.cogoremo = cogoremo;
@@ -56,7 +50,7 @@ t.engagedisengage = engagedisengage;
         idx = randi(length(faces) / 3);
         idx = (idx * 3) - 2;
         t.firstface = faces{idx};
-%     face1display(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter)
+
         faces{idx} = ''; %Eliminate the used face
         faces{idx + 1} = '';
         faces{idx + 2} = '';
@@ -67,7 +61,7 @@ t.engagedisengage = engagedisengage;
         idx = randi(length(faces)/ 3);
         idx = (idx * 3) - 1;
         t.firstface = faces{idx};
-% face1display(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter)
+
         faces{idx} = ''; %Eliminate the used face
         faces{idx - 1} = '';
         faces{idx + 1} = '';
@@ -76,11 +70,10 @@ t.engagedisengage = engagedisengage;
         
     elseif startingemotion == 'S'
         
-        gg = length(faces)
         idx = randi(length(faces)/ 3);
         idx = (idx * 3);
         t.firstface = faces{idx};
-% face1display(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter)
+
         faces{idx} = ''; %Eliminate the used face
         faces{idx - 1} = '';
         faces{idx - 2} = '';
@@ -94,7 +87,7 @@ t.engagedisengage = engagedisengage;
         idx = randi(length(faces) / 3);
         idx = (idx * 3) - 2;
         t.secondface = faces{idx};
-%   polygon(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter);
+
         faces{idx} = ''; %Eliminate the used face
         faces{idx + 1} = '';
         faces{idx + 2} = '';
@@ -105,19 +98,18 @@ t.engagedisengage = engagedisengage;
         idx = randi(length(faces)/ 3);
         idx = (idx * 3) - 1;
         t.secondface = faces{idx};
-%   polygon(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter);
+
         faces{idx} = ''; %Eliminate the used face
         faces{idx + 1} = '';
         faces{idx - 1} = '';
         faces(cellfun('isempty',faces)) = []; %Clear out used faces
-        
         
     elseif nextemotion == 'S'
         
         idx = randi(length(faces)/ 3);
         idx = (idx * 3);
         t.secondface = faces{idx};
-%   polygon(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter);
+
         faces{idx} = ''; %Eliminate the used face
         faces{idx - 1} = '';
         faces{idx - 2} = '';
@@ -127,13 +119,13 @@ t.engagedisengage = engagedisengage;
     if t.cogoremo == 'Cognitive'
         
         if t.easyorhard == 'Easy'
-        %   Choose number of sides for wrong answer choice
+        %Choose number of sides for wrong answer choice
             x = t.numsides;
-            while x == t.numsides
+            while x == t.numsides || x < 3
                 x = randi(4);
             end
 
-        %       assuming left = first and right = second
+        %assuming left = first and right = second
             if t.answerside == 'L'
                 t.firstchoice = t.numsides;
                 t.secondchoice = x;
@@ -150,19 +142,17 @@ t.engagedisengage = engagedisengage;
             t.secondchoice = 'Odd';
             
             if t.numsides == 4 || t.numsides == 6
-                t.answerside == 'L'
+                t.answerside == 'L';
             elseif t.numsides == 3 || t.numsides == 5
-                t.answerside == 'R'
+                t.answerside == 'R';
             end
         end
         
     elseif t.cogoremo == 'Emotional'
-        if t.easyorhard == 'Easy'
-    %     choose random face for wrong answer choice
-            %       assuming left = first and right = second
-            idx = randi(length(allfaces) / 3)
-
-
+        if t.easyorhard == 'Easy';
+        %choose random face for wrong answer choice
+        
+            idx = randi(length(allfaces) / 3);
             if t.answerside == 'L'
                 t.firstchoice = t.secondface;
                 if t.nextemotion == 'H'
@@ -187,33 +177,32 @@ t.engagedisengage = engagedisengage;
             
         elseif t.easyorhard == 'Hard'
 
-               idx = randi(length(allfaces) / 3);
-               idx2 = randi(2);
-               
-               if t.nextemotion == 'H'
-                    correct = allfaces{idx * 3 - 2};
-                    incorrect = allfaces{idx * 3 - 2 + idx2};
-                elseif t.nextemotion == 'S'
-                    correct = allfaces{idx * 3};
-                    incorrect = allfaces{idx * 3 - idx2};
-                elseif t.nextemotion == 'N'
-                    correct = allfaces{idx * 3 - 1};
-                    if idx2 == 1     
-                        incorrect = allfaces{idx * 3 - 1 + 1};
-                    elseif idx2 == 2
-                        incorrect = allfaces{idx * 3 - 1 - 1};
-                    end
-               end
-               
-               if t.answerside == 'L'
-                   t.firstchoice = correct;
-                   t.secondchoice = incorrect;
-               elseif t.answerside == 'R'
-                   t.firstchoice = incorrect;
-                   t.secondchoice = correct;
-               end
+           idx = randi(length(allfaces) / 3);
+           idx2 = randi(2);
+
+           if t.nextemotion == 'H'
+                correct = allfaces{idx * 3 - 2};
+                incorrect = allfaces{idx * 3 - 2 + idx2};
+            elseif t.nextemotion == 'S'
+                correct = allfaces{idx * 3};
+                incorrect = allfaces{idx * 3 - idx2};
+            elseif t.nextemotion == 'N'
+                correct = allfaces{idx * 3 - 1};
+                if idx2 == 1     
+                    incorrect = allfaces{idx * 3 - 1 + 1};
+                elseif idx2 == 2
+                    incorrect = allfaces{idx * 3 - 1 - 1};
+                end
+           end
+
+           if t.answerside == 'L'
+               t.firstchoice = correct;
+               t.secondchoice = incorrect;
+           elseif t.answerside == 'R'
+               t.firstchoice = incorrect;
+               t.secondchoice = correct;
+           end
         end 
     end
-    
     task = t;
 end

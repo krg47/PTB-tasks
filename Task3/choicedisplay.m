@@ -1,8 +1,11 @@
-function choicedisplay(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter)
+function t = choicedisplay(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter)
 
 %for testing a specific question
-t.cogoremo='Emotional';
- t.easyorhard='Easy';
+% t.cogoremo='Emotional';
+% t.easyorhard='Easy';
+% t.firstchoice = 'AF01HAS.JPG';
+% t.secondchoice = 'AF01HAS.JPG';
+% t.startside = 'L';
 %end testing
 
 if strcmp(t.cogoremo, 'Emotional') && strcmp(t.easyorhard,'Easy')
@@ -25,12 +28,9 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     
 end
 
-
-
-
 sz = Screen('TextSize', window, 40) %80
 white = WhiteIndex(screenNumber);
-y = screenYpixels*.74
+y = screenYpixels*.73;
 
 if t.startside == 'L'
     DrawFormattedText(window, questiontext{1}, screenXpixels / 2, y, white);
@@ -44,69 +44,57 @@ elseif t.startside == 'R'
     end
 end
 
-%TODO: complete these if statements
+% TODO: complete these if statements
+% TOM'S STUFF PART 2 ****************************************************
+% This works when t.startside == 'L', please finish for t.startside == 'R' 
+% Line 70 and line 90 are really what need done
 if strcmp(t.cogoremo, 'Emotional')
-    %         display choices (face images)
+    %display choices (face images)
     
-    if t.startside == 'L' %We are displaying the choices under the right side
-        
-        %           this doesn't work yet pls help
-     
-      facename=t.firstchoice;
-        face = imread(strcat(['..' filesep 'Task3' filesep 'Faces' filesep ], facename));
-        faceTexture = Screen('MakeTexture',window, face);
-        [s1, s2, s3] = size(face); %size of face
-        aspectRatio = s2 / s1; %find aspect ratio of face
-        
-        heightScalers = .25; %scales everything up/down
-        faceHeights = screenYpixels .* heightScalers;
-        faceWidths = faceHeights .* aspectRatio;
-        theRect = [0 0 faceWidths(1) faceHeights(1)];
-        
-        %           need to work on positioning
-        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.9);
-        
-        
-        Screen('DrawTextures', window, faceTexture, [],faceRects);
-        
-         facename=t.secondchoice;
-        face = imread(strcat(['..' filesep 'Task3' filesep 'Faces' filesep ], facename));
-        faceTexture = Screen('MakeTexture',window, face);
-        [s1, s2, s3] = size(face); %size of face
-        aspectRatio = s2 / s1; %find aspect ratio of face
-        
-        heightScalers = .25; %scales everything up/down
-        faceHeights = screenYpixels .* heightScalers;
-        faceWidths = faceHeights .* aspectRatio;
-        theRect = [0 0 faceWidths(1) faceHeights(1)];
-        
-        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.9);
-         Screen('DrawTextures', window, faceTexture, [],faceRects);
-           Screen('Flip',window,[],1);
-           
-    elseif t.startside == 'R' %We are displaying the choices under the left side
-      
-      facename=t.firstchoice;
-        face = imread(strcat(['..' filesep 'Task3' filesep 'Faces' filesep ], facename));
-        faceTexture = Screen('MakeTexture',window, face);
-        [s1, s2, s3] = size(face); %size of face
-        aspectRatio = s2 / s1; %find aspect ratio of face
-        
-        heightScalers = .25; %scales everything up/down
-        faceHeights = screenYpixels .* heightScalers;
-        faceWidths = faceHeights .* aspectRatio;
-        theRect = [0 0 faceWidths(1) faceHeights(1)];
-        
-        %           need to work on positioning
-        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.9);
-        
-        
-        Screen('DrawTextures', window, faceTexture, [],faceRects);
-        
-           Screen('Flip',window,[],1);
-        %             faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.4);
-        %             Screen('DrawTextures', window, faceTexture, [],faceRects);
+%   Draw first face choice
+    facename = t.firstchoice;
+    face = imread(strcat(['..' filesep 'Task3' filesep 'Faces' filesep], facename));
+    faceTexture = Screen('MakeTexture', window, face);
+    [s1, s2, s3] = size(face); %size of face
+    aspectRatio = s2 / s1; %find aspect ratio of face
+
+    heightScalers = .25; %scales everything up/down
+    faceHeights = screenYpixels .* heightScalers;
+    faceWidths = faceHeights .* aspectRatio;
+    theRect = [0 0 faceWidths(1) faceHeights(1)];
+
+    %need to work on positioning
+    if t.startside == 'L'
+        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels*.87);
+    elseif t.startside == 'R'
+        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels*.87);
     end
+
+    Screen('DrawTextures', window, faceTexture, [],faceRects);
+
+%   Draw second face choice
+    facename = t.secondchoice;
+    face = imread(strcat(['..' filesep 'Task3' filesep 'Faces' filesep ], facename));
+    faceTexture = Screen('MakeTexture', window, face);
+    [s1, s2, s3] = size(face); %size of face
+    aspectRatio = s2 / s1; %find aspect ratio of face
+
+    heightScalers = .25; %scales everything up/down
+    faceHeights = screenYpixels .* heightScalers;
+    faceWidths = faceHeights .* aspectRatio;
+    theRect = [0 0 faceWidths(1) faceHeights(1)];
+
+    if t.startside == 'L'
+        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .85, screenYpixels*.87);
+    elseif t.startside == 'R'
+        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .85, screenYpixels*.87);
+    end
+
+    Screen('DrawTextures', window, faceTexture, [],faceRects);
+    Screen('Flip',window,[], 0);
+           
+   
+    % END OF TOM'S STUFF PART 2 ****************************************************
     
 
     
@@ -123,82 +111,81 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     %       firstchoice=t.firstchoice and secondchoice=t.secondchoice to test if that did anything, but it
     %       just gave me a bunch of errors. I commented it out.
     
-    if t.startside == 'L'%We are displaying the choices under the right side
-        
-        firstchoice=t.firstchoice;
-        
-%         shapename=strcat('../Task3/Shapes/',num2str(numsides),'.PNG');
-% 
-%         shape=imread(shapename);
-%         
-%         shapeTexture = Screen('MakeTexture', window, shape);
-%         
-%         [s1, s2, s3] = size(shape); %size of face
-%         aspectRatio = s2 / s1; %find aspect ratio of face
-%         
-%         heightScalers = .58;
-%         shapeHeights = screenYpixels .* heightScalers;
-%         shapeWidths = shapeHeights .* aspectRatio;
-%         
-%         dstRects = zeros(4, 1);
-%         faceRects = zeros(4, 1);
-%         
-%         theRect = [0 0 shapeWidths(1) shapeHeights(1)]
-% 
-%         % heightScalers = .6; %scales everything up/down
-% 
-%         theRect = [0 0 shapeWidths(1) shapeHeights(1)]
-% 
-%         if t.startside == 'R' && numsides ~= 3
-%             dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.4);
-%         elseif t.startside == 'L' && numsides ~= 3
-%             dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.4);
-%         end
-        
-        secondchoice=t.secondchoice;
-        
-%         shapename=strcat('../Task3/Shapes/',num2str(numsides),'.PNG');
-% 
-%         shape=imread(shapename);
-%         
-%         shapeTexture = Screen('MakeTexture', window, shape);
-%         
-%         [s1, s2, s3] = size(shape); %size of face
-%         aspectRatio = s2 / s1; %find aspect ratio of face
-%         
-%         heightScalers = .58;
-%         shapeHeights = screenYpixels .* heightScalers;
-%         shapeWidths = shapeHeights .* aspectRatio;
-%         
-%         dstRects = zeros(4, 1);
-%         faceRects = zeros(4, 1);
-%         
-%         theRect = [0 0 shapeWidths(1) shapeHeights(1)]
-% 
-%         % heightScalers = .6; %scales everything up/down
-% 
-%         theRect = [0 0 shapeWidths(1) shapeHeights(1)]
-% 
-%         if t.startside == 'R' && numsides ~= 3
-%             dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.4);
-%         elseif t.startside == 'L' && numsides ~= 3
-%             dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.4);
-%         end
-        
-        DrawFormattedText(window, firstchoice, screenXpixels*.75,  screenYpixels*.25, white);
-        DrawFormattedText(window, secondchoice, screenXpixels*.5,  screenYpixels*.25, white);
-        
-        
-    elseif t.startside == 'R'%We are displaying the choices under the left side
-        
-        
-        firstchoice=t.firstchoice;
-        secondchoice=t.secondchoice;
-        DrawFormattedText(window, firstchoice, screenXpixels*.5,  screenYpixels*.25, white);
-        DrawFormattedText(window, secondchoice, screenXpixels*.25,  screenYpixels*.25, white);
-    end
-    
-     Screen('Flip',window,[],1);
+     firstchoice = t.firstchoice;
+     gg = t
+     shapename = strcat('../Task3/Shapes/',num2str(firstchoice),'.PNG');
+
+     [shape, ~, alpha]  = imread(shapename);
+         
+    shapeTexture1 = Screen('MakeTexture', window, shape);
+    shape(:, :, 4) = alpha;
+    shapeTexture2 = Screen('MakeTexture', window, shape);
+
+         
+     [s1, s2, s3] = size(shape); %size of face
+     aspectRatio = s2 / s1; %find aspect ratio of face         
+
+     heightScalers = .15;
+     
+     if firstchoice == 3
+         heightScalers = .12;
+     end
+     
+     shapeHeights = screenYpixels .* heightScalers;
+     shapeWidths = shapeHeights .* aspectRatio;
+         
+     dstRects = zeros(4, 1);
+     shapeRects = zeros(4, 1);
+     sizes = size(shape);
+     
+     secondchoice = t.secondchoice;
+     
+     shape2name = strcat('../Task3/Shapes/',num2str(secondchoice),'.PNG');
+
+     [shape2, ~, alpha2]  = imread(shape2name);
+     
+   
+    shape2Texture = Screen('MakeTexture', window, shape2);
+    shape(:, :, 4) = alpha;
+         
+     [s12, s22, s32] = size(shape2); %size of face
+     aspectRatio2= s22 / s12; %find aspect ratio of face
+         
+     heightScalers2 = .15;
+     
+     if secondchoice == 3
+         heightScalers2 = .12;
+     end
+     
+     shape2Heights = screenYpixels .* heightScalers2;
+     shape2Widths = shape2Heights .* aspectRatio2;
+         
+     dstRects2 = zeros(4, 1);
+     shape2Rects = zeros(4, 1);
+     sizes2 = size(shape2)         
+     
+
+     theRect = [0 0 shapeWidths(1) shapeHeights(1)];
+     theRect2 = [0 0 shape2Widths(1) shape2Heights(1)];
+ 
+     if t.startside == 'L' 
+         
+         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels*.85);
+         Screen('DrawTexture', window, shapeTexture2, [-1, -2, sizes(2) + 1, sizes(1) + 1], dstRects);
+         
+         dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .83, screenYpixels*.85);
+         Screen('DrawTexture', window, shape2Texture, [-1, -1, sizes2(2) + 1, sizes2(1) + 1], dstRects2);
+         
+     elseif t.startside == 'R' 
+         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .10, screenYpixels*.85);
+         Screen('DrawTexture', window, shapeTexture2, [-1, -2, sizes(2) + 1, sizes(1) + 1], dstRects);
+         
+         dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .33, screenYpixels*.85);
+         Screen('DrawTexture', window, shape2Texture, [-1, -1, sizes2(2) + 1, sizes2(1) + 1], dstRects2);
+         
+     end
+   
+     Screen('Flip',window,[], 0);
  %************************************************************    
     
 elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
@@ -215,15 +202,15 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
         
     end
     
-    Screen('Flip', window, [], 1);
+    Screen('Flip', window, [], 0);
 
 
    
 end
 
 
-%checks key response
-starttime=GetSecs;
+% checks key response
+starttime = GetSecs;
 %     starttime(i) = GetSecs;
     
     KbName('UnifyKeyNames');
@@ -235,7 +222,7 @@ starttime=GetSecs;
         % If the user is pressing a key, then display its code number and name.
         if keyIsDown
             endtime = GetSecs;
-            responsetime = endtime - starttime;
+            t.responsetime = endtime - starttime;
             
             % Note that we use find(keyCode) because keyCode is an array.
             v = find(keyCode);
@@ -243,21 +230,21 @@ starttime=GetSecs;
         end
     end
    
-        if v==80
-            response='L'
+        if v == 80
+            t.response = 'L';
+            if t.answerside == 'L'
+                t.rightorwrong = 'Right';
+            else
+                t.rightorwrong = 'Wrong';
+            end
            
-        elseif v==70
-            response='R'
-     
+        elseif v == 70
+            t.response = 'R';  
+            if t.answerside == 'R'
+                t.rightorwrong = 'Right';
+            else
+                t.rightorwrong = 'Wrong';
+            end
         end
-
-%     if t.startside == 'R'
-%         faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.4);
-%     elseif t.startside == 'L'
-%         faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.4);
-%     end
-%
-%    TODO: display answer choices below the question tex
-
 
 end

@@ -11,8 +11,8 @@ function sequence=sequencer(maxconsecutive)
 
 maxconsecutive = 1
 num = csvread('sequences.csv');
-x = size(num)
-i = 1
+x = size(num);
+i = 1;
 while i < x(1)
     
     sequence=num(i,:);
@@ -23,7 +23,7 @@ while i < x(1)
         num(i,:) = [];
         i = i - 1;
     end
-    x = size(num)
+    x = size(num);
     i = i + 1;
     
 end
