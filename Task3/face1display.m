@@ -1,6 +1,6 @@
 function t = face1display(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter, ISI, ICI)
 
-    a = t.startside
+    a = t.startside;
     facename = t.firstface;
     
     face = imread(strcat('../Task3/Faces/',facename));

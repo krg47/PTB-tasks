@@ -28,7 +28,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     
 end
 
-sz = Screen('TextSize', window, 40) %80
+sz = Screen('TextSize', window, 40); %80
 white = WhiteIndex(screenNumber);
 y = screenYpixels*.73;
 
@@ -67,7 +67,7 @@ if strcmp(t.cogoremo, 'Emotional')
     if t.startside == 'L'
         faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels*.87);
     elseif t.startside == 'R'
-        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels*.87);
+        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .15, screenYpixels*.87);
     end
 
     Screen('DrawTextures', window, faceTexture, [],faceRects);
@@ -87,7 +87,7 @@ if strcmp(t.cogoremo, 'Emotional')
     if t.startside == 'L'
         faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .85, screenYpixels*.87);
     elseif t.startside == 'R'
-        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .85, screenYpixels*.87);
+        faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .4, screenYpixels*.87);
     end
 
     Screen('DrawTextures', window, faceTexture, [],faceRects);
@@ -112,7 +112,6 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     %       just gave me a bunch of errors. I commented it out.
     
      firstchoice = t.firstchoice;
-     gg = t
      shapename = strcat('../Task3/Shapes/',num2str(firstchoice),'.PNG');
 
      [shape, ~, alpha]  = imread(shapename);
@@ -145,8 +144,8 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
      [shape2, ~, alpha2]  = imread(shape2name);
      
    
-    shape2Texture = Screen('MakeTexture', window, shape2);
-    shape(:, :, 4) = alpha;
+     shape2Texture = Screen('MakeTexture', window, shape2);
+     shape2(:, :, 4) = alpha2;
          
      [s12, s22, s32] = size(shape2); %size of face
      aspectRatio2= s22 / s12; %find aspect ratio of face
@@ -162,7 +161,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
          
      dstRects2 = zeros(4, 1);
      shape2Rects = zeros(4, 1);
-     sizes2 = size(shape2)         
+     sizes2 = size(shape2);         
      
 
      theRect = [0 0 shapeWidths(1) shapeHeights(1)];
@@ -177,10 +176,10 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
          Screen('DrawTexture', window, shape2Texture, [-1, -1, sizes2(2) + 1, sizes2(1) + 1], dstRects2);
          
      elseif t.startside == 'R' 
-         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .10, screenYpixels*.85);
+         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .15, screenYpixels*.85);
          Screen('DrawTexture', window, shapeTexture2, [-1, -2, sizes(2) + 1, sizes(1) + 1], dstRects);
          
-         dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .33, screenYpixels*.85);
+         dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .40, screenYpixels*.85);
          Screen('DrawTexture', window, shape2Texture, [-1, -1, sizes2(2) + 1, sizes2(1) + 1], dstRects2);
          
      end
@@ -192,22 +191,19 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     %         display choices "even" and "odd"
     if t.startside == 'L' %We are displaying the choices under the right side
         
-        DrawFormattedText(window, 'Even', screenXpixels/2,  screenYpixels*.9, white);
-        DrawFormattedText(window, 'Odd', screenXpixels*.72, screenYpixels*.9, white);
+        DrawFormattedText(window, 'Even', screenXpixels * .55,  screenYpixels*.9, white);
+        DrawFormattedText(window, 'Odd', screenXpixels * .83, screenYpixels*.9, white);
         
     elseif t.startside == 'R' %We are displaying the choices under the left side
         
-        DrawFormattedText(window, 'Even', 100,  screenYpixels*.9, white);
-        DrawFormattedText(window, 'Odd', screenXpixels*.2,  screenYpixels*.9, white);
+        DrawFormattedText(window, 'Even', screenXpixels*.10,  screenYpixels*.9, white);
+        DrawFormattedText(window, 'Odd', screenXpixels*.4,  screenYpixels*.9, white);
         
     end
     
     Screen('Flip', window, [], 0);
-
-
    
 end
-
 
 % checks key response
 starttime = GetSecs;
@@ -246,5 +242,6 @@ starttime = GetSecs;
                 t.rightorwrong = 'Wrong';
             end
         end
+    Screen('Flip', window, [], 0);
 
 end

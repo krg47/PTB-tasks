@@ -164,14 +164,5 @@ function task3(subID, repetitions, ISI, ICI);
 end
 
 %     TODO: 
-%     Fix face choices displaying on left side
 %     When the question takes up 2 lines, the second line is covered by the
 %     face choices.
-%     Do we want the screen to be blank in between questions?
-%     Adjust spacing for even odd answer choices
-
-
-%     Tom, if you want to try working on something, try to fill in the if
-%     statements in choicedisplay.m, around line 80 it says Tom's stuff. I left some notes to
-%     help you. To run the task, go to task3.m and hit run at the top.=
-    
