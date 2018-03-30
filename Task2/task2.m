@@ -1,4 +1,9 @@
-
+% TODO:
+% Make function to generate random sequence instead of drawing from
+% sequence bank. No repeating numbers, use all 4 buttons in each sequence
+% Get user input of lenth of sequence
+% Make sure markov thing happens before each repetition, not every time it
+% shows a face
 function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, sex, race, emotion);
 
     validInput = false;
@@ -113,7 +118,7 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
     sequence = sequences(rseq, :)
     sequence = transpose(sequence);
     newseq=sequence; %used later
-    if violationrate==0 %only shift if there is no violation rate
+    if violationrate == 0 %only shift if there is no violation rate
         sequence = circshift(sequence, randi(sequencelength), 1); %this rotates sequence by random amount
     end
 
@@ -198,7 +203,7 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
 
         if j > 2 % After 2 blocks, determine valence of subsequent face
 
-            baseline = (sum(responsetime(1:(repetitions * neutralreps * 7)))) / neutralreps %Avg of first 2 blocks
+            baseline = (sum(responsetime(1:(repetitions * neutralreps * 7)))) / neutralreps; %Avg of first 2 blocks
             [key, delta] = analyze(responsetime, j,repetitions,k, baseline, reverse);
         end
 

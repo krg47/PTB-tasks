@@ -36,6 +36,7 @@
     % Working directory should include these files/folders:
     % task1.m - main body of the task that calls other functions
     % userinput.m - allows for input of adjustable parameters
+    % waittostart.m - sets up the screen for display, and waits until "=" is pressed to begin the task
     % experiment.m - selects random faces, random names, and selects the
         % next face based % on the participant's keypress and the 
         % probability of bias

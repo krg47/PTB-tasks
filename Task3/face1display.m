@@ -3,7 +3,7 @@ function t = face1display(t, screens, screenNumber,  black, window, windowRect, 
     a = t.startside;
     facename = t.firstface;
     
-    face = imread(strcat('../Task3/Faces/',facename));
+    face = imread(strcat('..', filesep, 'Task3', filesep, 'Faces', filesep, facename));
     faceTexture = Screen('MakeTexture',window, face);
     [s1, s2, s3] = size(face); %size of face
     aspectRatio = s2 / s1; %find aspect ratio of face

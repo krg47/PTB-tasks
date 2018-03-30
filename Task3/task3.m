@@ -162,7 +162,3 @@ function task3(subID, repetitions, ISI, ICI);
     KbWait;
     sca;
 end
-
-%     TODO: 
-%     When the question takes up 2 lines, the second line is covered by the
-%     face choices.

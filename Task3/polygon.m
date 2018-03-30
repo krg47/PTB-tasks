@@ -6,7 +6,7 @@ function polygon(t, screens, screenNumber,  black, window, windowRect, screenXpi
     white = WhiteIndex(screenNumber);
     black = BlackIndex(screenNumber);
 
-    shapename = strcat('../Task3/Shapes/',num2str(numsides),'.PNG');
+    shapename = strcat('..', filesep, 'Task3', filesep, 'Shapes', filesep, num2str(numsides), '.PNG');
     shape = imread(shapename);
     shapeTexture = Screen('MakeTexture', window, shape);
 
@@ -34,10 +34,17 @@ function polygon(t, screens, screenNumber,  black, window, windowRect, screenXpi
     elseif t.startside == 'L' && numsides == 3
         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.29); %was .29
     end
-
+    
+    % adjust y coord for pentagons
+    if t.startside == 'R' && numsides == 5
+        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * 0.28, screenYpixels * 0.36);
+    elseif t.startside == 'L' && numsides == 5
+        dstRects(:,1) = CenterRectOnPointd(theRect, screenXpixels * 0.72, screenYpixels * 0.36);
+    end
+    
     Screen('PutImage', window, shape, dstRects);
     facename = t.secondface;
-    face = imread(strcat('../Task3/Faces/',facename));
+    face = imread(strcat('..', filesep, 'Task3', filesep, 'Faces', filesep, facename));
     faceTexture = Screen('MakeTexture',window, face);
     [s1, s2, s3] = size(face); %size of face
     aspectRatio = s2 / s1; %find aspect ratio of face
