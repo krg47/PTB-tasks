@@ -1,8 +1,8 @@
-function [key, delta] = analyze(responsetime, j, repetitions, k, baseline, reverse)
+function [key, delta] = analyze(responsetime, j, repetitions, k, baseline, reverse,sequencelength)
 
 delta = 0;
-starti = (j - 1) * repetitions * 7;
-endi = starti + (7 * repetitions);
+starti = (j - 1) * repetitions * sequencelength;
+endi = starti + (sequencelength * repetitions);
 totaltime = sum(responsetime(starti : endi));
 
 if j >= 3 %After third block, compare to initial baseline
@@ -37,8 +37,8 @@ if j >= 3 %After third block, compare to initial baseline
     
 else %Otherwise, compare to previous block
        
-    starti = (j - 2) * repetitions * 7;
-    endi = starti + 7 * repetitions;
+    starti = (j - 2) * repetitions * sequencelength;
+    endi = starti + sequencelength * repetitions;
     baseline = sum(responsetime(starti : endi));
     
     diff = floor(totaltime - baseline);
@@ -56,4 +56,4 @@ else %Otherwise, compare to previous block
     end
 end
 
-timeKey = (totaltime-baseline)
+timeKey = (totaltime-baseline);

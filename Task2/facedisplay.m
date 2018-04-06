@@ -1,4 +1,4 @@
-function [responsetime, imgnum] = facedisplay(sequence, d, key, i, img, window)
+function [responsetime, imgnum] = facedisplay(sequencearray, d, key, i, img, window)
 
 if key == 'N'
     imgnum = ceil(length(d)/2);

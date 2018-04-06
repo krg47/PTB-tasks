@@ -159,6 +159,9 @@ function task3(subID, repetitions, ISI, ICI);
     datafile = strcat('subject_',subID); %makes filename for results
     save(datafile, 'subID', 'tasks', 'repetitions', 'ISI', 'ICI');
     
-    KbWait;
+
+    
+    
+    
     sca;
 end

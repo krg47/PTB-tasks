@@ -26,7 +26,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     
 end
 
-sz = Screen('TextSize', window, 40); %80
+sz = Screen('TextSize', window, 60); %80
 white = WhiteIndex(screenNumber);
 y = screenYpixels*.73;
   
@@ -36,10 +36,18 @@ y = screenYpixels*.73;
 %elseif statements directly below this were eliminated since there is no longer second lines of
 %text. :D I'm kind of figuring this stuff out.
 
-if t.startside == 'L'
-    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.64, y, white);
-elseif t.startside == 'R'
-    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.20,  y, white);
+
+
+if t.startside == 'L' && not(strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard'))
+    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.61, y, white);
+elseif t.startside == 'R' && not(strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard'))
+    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.17,  y, white);
+end
+
+if t.startside == 'L' && strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard')
+    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.58, y, white);
+elseif t.startside == 'R' && strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard')
+    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.14,  y, white);
 end
 
 % TODO: complete these if statements
@@ -67,14 +75,7 @@ if strcmp(t.cogoremo, 'Emotional')
     elseif t.startside == 'R'
         faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .15, screenYpixels*.87);
     end
-    
-%     Moving the positioning of the Odd or Even Prompt
-%     if t.startside == 'L' & t.cogoremo == 'Cognitive' & t.easyorhard == 'Hard'
-%         DrawFormattedText(window, questiontext{1}, screenXpixels * .60,  screenYpixels*.12, white);
-%     elseif t.startside == 'R' & t.cogoremo == 'Cognitive' & t.easyorhard == 'Hard'
-%         DrawFormattedText(window, questiontext{1}, screenXpixels*.10,  screenYpixels*.12, white)
-%     end
-%     
+         
     Screen('DrawTextures', window, faceTexture, [],faceRects);
     
     %   Draw second face choice
@@ -195,16 +196,16 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
 elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     %         display choices "even" and "odd"
     
-    Screen('TextSize', window, 60);
+    Screen('TextSize', window, 80);
     if t.startside == 'L' %We are displaying the choices under the right side
         
-        DrawFormattedText(window, 'Even', screenXpixels * .55,  screenYpixels*.85, white);
-        DrawFormattedText(window, 'Odd', screenXpixels * .83, screenYpixels*.85, white);
+        DrawFormattedText(window, 'Even', screenXpixels * .53,  screenYpixels*.85, white);
+        DrawFormattedText(window, 'Odd', screenXpixels * .80, screenYpixels*.85, white);
         
     elseif t.startside == 'R' %We are displaying the choices under the left side
         
-        DrawFormattedText(window, 'Even', screenXpixels*.10,  screenYpixels*.85, white);
-        DrawFormattedText(window, 'Odd', screenXpixels*.4,  screenYpixels*.85, white);
+        DrawFormattedText(window, 'Even', screenXpixels*.08,  screenYpixels*.85, white);
+        DrawFormattedText(window, 'Odd', screenXpixels*.38,  screenYpixels*.85, white);
         
     end
     

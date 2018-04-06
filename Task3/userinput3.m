@@ -8,7 +8,7 @@ function [subID, repetitions, ISI, ICI, emotion] = userinput
             num_lines = 1;
 
             % Default values       
-            def = {'1234','20', '1.25', '2.0', 'NS'}; %Default is Neutral/sad 
+            def = {'1234','5', '1.25', '2.0', 'NS'}; %Default is Neutral/sad 
             answer = inputdlg(prompt, dlg_title, num_lines, def);
 
             if isempty(answer), return, end;

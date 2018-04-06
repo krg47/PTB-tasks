@@ -1,4 +1,4 @@
-function [responsetime, imgnum, theImage, fname, keyresponse] = squares(newseq, d, key,numseq,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion,violationrate)
+function [responsetime, imgnum, theImage, fname, keyresponse] = squares(s, numseq, d, key,sequencelength,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion,violationrate,j)
 %function to display squares and face
 
 neutralIndex = 1; %first image is neutral
@@ -38,17 +38,17 @@ end
 
 
 
-fpath = getfield(d(imgnum(k)), 'folder')
-fname = getfield(d(imgnum(k)),'name')
+fpath = getfield(d(imgnum(k)), 'folder');
+fname = getfield(d(imgnum(k)),'name');
 theImage = imread(strcat(fpath, filesep, fname));
 
-baseRect = [0 0 300 300]; %dimensions
+baseRect = [0 0 .22*screenXpixels .22*screenXpixels]; %dimensions
 squareXpos = [screenXpixels * 0.125 screenXpixels * 0.375 screenXpixels * .625 screenXpixels * .875]; % Screen X positions of our three rectangles
 numSquares = length(squareXpos);
 
 allRects = nan(4, 4);  % Make our rectangle coordinates
-for j = 1:numSquares %j is placeholder for loop
-    allRects(:, j) = CenterRectOnPointd(baseRect, squareXpos(j), yCenter);
+for squarecounter = 1:numSquares %j is placeholder for loop
+    allRects(:, squarecounter) = CenterRectOnPointd(baseRect, squareXpos(squarecounter), yCenter);
 end
 penWidthPixels = 6; % Pen width for the frames
 
@@ -58,7 +58,7 @@ imageTexture = Screen('MakeTexture', window, theImage);
 [s1, s2, s3] = size(theImage); %size of face
 aspectRatio = s2 / s1; %find aspect ratio of face
 
-heightScalers = .29; %scales everything down to .25 x
+heightScalers = baseRect(3)/screenYpixels; %scales everything down based on screen
 imageHeights = screenYpixels .* heightScalers;
 imageWidths = imageHeights .* aspectRatio;
 
@@ -70,19 +70,18 @@ theRect = [0 0 imageWidths(1) imageHeights(1)];
 
 
 
-dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * (.25*newseq(numseq)-.125),...
+dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * (.25*s(k).sequence(numseq)-.125),...
     screenYpixels / 2);
 
 Screen('DrawTextures', window, imageTexture, [], dstRects);
 starttime = GetSecs;
 Screen('Flip', window);
 
-while KbCheck; %make sure keys are released
+while KbCheck %make sure keys are released
 end
 while 1
 [keyIsDown,~,keyCode] = KbCheck;
 if keyIsDown
-    numseq;
     keyresponse(numseq) = find(keyCode);
     break;
 end
@@ -90,8 +89,8 @@ end
 
 endtime = GetSecs;
 
-index = (k -1) * 7 + numseq
-responsetime(index) = endtime - starttime
+index = (k -1) * sequencelength + numseq;
+responsetime(index) = endtime - starttime;
 
 
 
