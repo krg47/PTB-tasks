@@ -1,9 +1,9 @@
-function [subID, repetitions, ISI, ICI, emotion] = userinput
+function [subID, repetitions, ISI, ICI] = userinput
 
     validInput = false;
     if nargin < 10
         while ~validInput
-            prompt = {'SubjectID:', 'Repetitions:', 'Inter-Stimulus Interval:', 'Inter-Question Interval', 'Emotion: (NS, SN, NF, FN, HS, or SH)'};
+            prompt = {'SubjectID:', 'Repetitions:', 'Inter-Stimulus Interval:', 'Inter-Question Interval'};
             dlg_title = 'Configure Task';
             num_lines = 1;
 
@@ -26,7 +26,7 @@ function [subID, repetitions, ISI, ICI, emotion] = userinput
                 repetitions = str2num(answer{2});
                 ISI = str2double(answer{3});
                 ICI = str2double(answer{4});
-                emotion = answer{5};
+                
             end
         end
     end

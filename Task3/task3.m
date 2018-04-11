@@ -1,7 +1,7 @@
 
 function task3(subID, repetitions, ISI, ICI);
 
-    [subID, repetitions, ISI, ICI, emotion] = userinput3;
+    [subID, repetitions, ISI, ICI] = userinput3;
     [screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter] = waittostart;
 
     d = ['Faces' filesep '*.JPG'];

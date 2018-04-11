@@ -31,9 +31,7 @@
     % Repetitions
     % ISI (Inter-Stimulus Interval)
     % Inter-Question Interval
-    % Emotions (Neutral/Sad, Sad/Neutral, Neutral/Fearful, Fearful/Neutral,
-    % Happy/Sad, or Sad/Happy)
-    
+
     
 % File/Directory Descriptions
     % Working directory should include these files/folders:

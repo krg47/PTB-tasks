@@ -1,4 +1,4 @@
-function s = sequencer(sequencelength, violationrate, reverseblocks, forwardblocks, repetitions)
+function [s,tempsequence] = sequencer(sequencelength, violationrate, reverseblocks, forwardblocks, repetitions)
 
 %************FOR TESTING***********************
 % sequencelength=7;

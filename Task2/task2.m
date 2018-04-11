@@ -7,7 +7,7 @@
 % shows a face DONE
 % When we cycle a sequence that starts and ends with the same #, then they
 % will be back to back (not sure if this matters) (ex. [4 1 3 2 4] becomes
-% [1 3 2 4 4])
+% [1 3 2 4 4]) DONE
 % Check data storage still works DONE
 %should we store what original unshifted/unchanged sequence is?
 
@@ -126,7 +126,7 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
 %     rseq = randi(sz(1));
 
     %sequence = sequences(rseq, :)
-    s = sequencer(sequencelength, violationrate, reverseblocks, forwardblocks, repetitions);  
+    [s, tempsequence] = sequencer(sequencelength, violationrate, reverseblocks, forwardblocks, repetitions);  
   
     % Show starting screen
     [screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter] = waittostart; %waittostart function
@@ -175,6 +175,7 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
             imgCell{k,:} = fname;
             sequenceCell{k,:} = transpose(s(k).sequence);
             rightorwrongCell{k,:} = (keyresponseCell{k,:}==sequenceCell{k,:});
+            originalsequence{1,:}= transpose(tempsequence);
             WaitSecs(ITI - ISI) % subtract ISI because it already waited ISI
         end
 
@@ -201,7 +202,7 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
 
     % Save data
     
-    save(datafile, 'responseTimeCell','totalResponseTimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell');
+    save(datafile, 'responseTimeCell','totalResponseTimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell', 'originalsequence');
     
     KbWait;
     sca;

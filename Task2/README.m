@@ -26,22 +26,28 @@
         % Participant's accuracy
 
 % Adjustable parameters:
+    % subID
+    % reverseblocks
+    % forwardblocks
+    % repetitions
     % ITI
     % ISI
     % IBI
-    % Subject ID
-    % Repetitions
-    % Forward learning blocks
-    % Reverse learning blocks
     % Sex
     % Race
+    % Emotion
+    % Violation Rate
+    % Sequence Length
 
 % File/Directory Descriptions
 
     % Working directory should include these files/folders:
     % task2.m - main body of the program, calls all other functions, responsible for data storage
-    % sequences.csv - pre-determined sequences, from which one will be selected randomly
-    % sequencer.m - randomly selects sequence
+    % sequencer.m - randomly generates sequences following these rules:
+        % There are no repeating numbers
+        % The first and last numbers of the sequence are different (so
+        % there are no repeats when "cycling")
+        % All numbers 1-4 are used
     % waittostart.m - sets up the screen for display, and waits until "=" is pressed to begin the task 
     % squares.m - displays faces and squares in which they appear
     % analyze.m - calculates the percent change in valence based on the response time
@@ -54,13 +60,16 @@
 % Example use
 subID = '1234'; %subject ID
 reverseblocks = 8; %number of blocks where faster times -> unhappy faces
-forwardblocks = 4 %number of blocks where faster times -> happy faces
+forwardblocks = 4; %number of blocks where faster times -> happy faces
 repetitions = 4; %number of times the sequence is shown per block
 ITI = 0; %inter-trial interval (between each sequence)
 ISI = 1.25; %inter-stimulus interval (between each face)
 IBI = 5; %inter-block interval
-sex = 'F' %sex of the subject
-race = 'W' %race of the subject
-emotion = 'NS' % emotion spectrum to be used. NS = neutral - sad; NF = neutral - fear; HS = happy - sad
+sex = 'F'; %sex of the subject
+race = 'W'; %race of the subject
+emotion = 'NS'; % emotion spectrum to be used. NS = neutral - sad; NF = neutral - fear; HS = happy - sad
+violationrate = 0; 
+sequencelength = 7; 
 
-task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, sex, race, emotion);
+task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, sex, race, emotion, violationrate, sequencelength);
+
