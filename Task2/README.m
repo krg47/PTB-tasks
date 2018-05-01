@@ -3,20 +3,26 @@
 % Design
 
     % To launch, click "Run" in task2.m or call function task2 as in example below.                                                                                                                                                       the "=" key to start the experiment
-    % Blocks indicate a group of repetitions
-    % The valence (% emotion) of the face only changes between blocks
-    % The number of repetitions is the number of sequences the participant will see per block
-    % The time between face display is the Interstimulus Interval (ISI)
-    % The time between sequences is the Intertrial Interval (ITI)
-    % The time between blocks is the Interblock Interval (IBI)
-    % The participant will press keys (1-4) corresponding to the location of a face in a randomly generated sequence
-    % The first two blocks are used to establish a baseline speed, using neutral faces
-    % The speed of the following blocks is compared to the baseline
-    % A 5% change in speed will result in a 10% change in face emotion
-    % Based on the difference in speeds, the valence of the image will become happier or sadder by a percentage relative to the neutral valence in the next block
-    % Initially, faster speeds result in increasingly negative valences (reverse learning)
+    % A block is a group of repetitions. 
+    % There will be a short break between blocks.
+    % The valence (% emotion) of the face only changes between blocks.
+    % The number of repetitions is the number of sequences the participant
+        % will see per block.
+    % The time between each face display is the Interstimulus Interval
+        % (ISI).
+    % The time between sequences is the Intertrial Interval (ITI).
+    % The time between blocks is the Interblock Interval (IBI).
+    % The participant will press keys (1-4) corresponding to the location of a face 
+        % in a randomly generated sequence.
+    % The first two blocks are used to establish a baseline speed, using
+        % neutral faces.
+    % The speed of the following blocks is compared to the average of the baseline.
+    % A 5% change in speed will result in a 10% change in face emotion.
+    % Based on the difference in speeds, the valence of the image will become 
+        % happier or sadder by a percentage relative to the neutral valence in the next block.
+    % Initially, faster speeds result in increasingly negative valences (reverse learning).
     % At some point in the experiment, learning is reversed so that faster
-    % speeds result in increasingly positive valences (forward learning)
+        % speeds result in increasingly positive valences (forward learning).
     % The program records the following data from the task in a file titled "<subect_ID>.mat":
         % Image displayed
         % Response time
@@ -43,18 +49,18 @@
 
     % Working directory should include these files/folders:
     % task2.m - main body of the program, calls all other functions, responsible for data storage
-    % sequencer.m - randomly generates sequences following these rules:
+    % sequencer.m - randomly generates sequences following these parameters:
         % There are no repeating numbers
         % The first and last numbers of the sequence are different (so
-        % there are no repeats when "cycling")
+            % there are no repeats when "cycling")
         % All numbers 1-4 are used
     % waittostart.m - sets up the screen for display, and waits until "=" is pressed to begin the task 
     % squares.m - displays faces and squares in which they appear
     % analyze.m - calculates the percent change in valence based on the response time
     % Faces - folder containing the pool of faces from which the program selects
     % The Faces/ folder should store faces at :
-    % "Faces/<sex>/<race>/<model_no>/<emotion_spectrum>/" with face files as
-    % .jpg images sorted from happiest faces to saddest faces.
+        % "Faces/<sex>/<race>/<model_no>/<emotion_spectrum>/" with face files as
+        % .jpg images sorted from happiest faces to saddest faces.
 
 
 % Example use
