@@ -30,14 +30,6 @@ sz = Screen('TextSize', window, 60); %80
 white = WhiteIndex(screenNumber);
 y = screenYpixels*.73;
   
-%Hey Kristen, so I went outside of TOM'S STUFF. I thought the questions
-%were quite lengthy, so I asked Helmet what they should be and he changed
-%them for me. Because of that the second part of the if and
-%elseif statements directly below this were eliminated since there is no longer second lines of
-%text. :D I'm kind of figuring this stuff out.
-
-
-
 if t.startside == 'L' && not(strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard'))
     DrawFormattedText(window, questiontext{1}, screenXpixels * 0.61, y, white);
 elseif t.startside == 'R' && not(strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard'))
