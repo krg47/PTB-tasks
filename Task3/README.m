@@ -22,7 +22,7 @@
         % Two faces will appear underneath the prompt, and the test subject
         % needs to select the exact face that matches.
         % 4. Match Emotion (Emotional Hard);
-        % Two different faces will appear underneath the propmt, and the
+        % Two different faces will appear underneath the prompt, and the
         % subject needs to select the face that matches the emotion.
  
 % Adjustable parameters:
@@ -49,8 +49,8 @@
     repetitions = 20;
     ISI = 1.25;
     ICI = 2.0;
-    emotion = 'NS';
+   
     
     
-    task3(subID, repetitions, ISI, ICI, emotion);
+    task3(subID, repetitions, ISI, ICI);
     

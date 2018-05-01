@@ -22,7 +22,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     
 elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     
-    questiontext{1} = 'Odd or Even';
+    questiontext{1} = 'Even or Odd';
     
 end
 
@@ -102,9 +102,6 @@ if strcmp(t.cogoremo, 'Emotional')
     
     % END OF TOM'S STUFF PART 2 ****************************************************
     
-    
-    
-    %****************************TOM'S STUFF********************************
 elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     
     %       display choices (shape images)
@@ -235,6 +232,7 @@ while 1
     end
 end
 
+
 if v == 80
     t.response = 'L';
     if t.answerside == 'L'
@@ -243,7 +241,7 @@ if v == 80
         t.rightorwrong = 'Wrong';
     end
     
-elseif v == 70
+elseif v == 79
     t.response = 'R';
     if t.answerside == 'R'
         t.rightorwrong = 'Right';

@@ -1,19 +1,21 @@
+
 % Task 1
 
 % Design
 
     % To launch, click "Run" in task1.m or call function task1 as in 
         % example below. 
-    % Press the "=" key to start the experiment
-    % A face appears with two randomly selected names
+    % Press the "=" key to start the experiment once the task has been
+        % initiated.
+    % A face will appear and two randomly selected names (from a list of
+        % names) will appear underneath the face.
     % The participant will select which name they think matches the face by 
-        % clicking the left or right arrow key
-    % There is no correct name
+        % clicking the left or right arrow key - there is no correct name.
     % Each key has a bias for the next face to be a more positive/negative 
-        % valence
-    % This bias is controlled by the probability of bias parameter
+        % valence.
+    % This bias is controlled by the probability of bias parameter.
     % The time between the participant's keypress and appearance of the 
-        % next face is the Interstimulus Interval (ISI)     
+        % next face is the Interstimulus Interval (ISI) and is recorded. 
     % The program records the following data from the task in a file titled
     % "<test_ID>.mat" that records:
         % Image numbers
@@ -36,19 +38,20 @@
     % Working directory should include these files/folders:
     % task1.m - main body of the task that calls other functions
     % userinput.m - allows for input of adjustable parameters
-    % waittostart.m - sets up the screen for display, and waits until "=" is pressed to begin the task
+    % waittostart.m - sets up the screen for display, and waits until "=" is 
+        % pressed - this begins the task
     % experiment.m - selects random faces, random names, and selects the
-        % next face based % on the participant's keypress and the 
+        % next face based on the participant's keypress and the 
         % probability of bias
     % displayface.m - displays the face and the selected names
     % test_ID.mat - contains data collected by the task
     % NS - faces for the Neutral/Sad option
     % NF - faces for the Neutral/Fearful option
     % HS - faces for the Happy/Sad option
-    % FemaleNames.txt - List of female names from which name is randomly 
-        % selected
-    % MaleNames.txt - List of male names from which name is randomly 
-        % selected
+    % FemaleNames.txt - List of female names where a name is randomly 
+        % selected.
+    % MaleNames.txt - List of male names where a name is randomly 
+        % selected.
 
 %Example use
     % subID = '1234'

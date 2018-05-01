@@ -1,10 +1,10 @@
-function [s,tempsequence] = sequencer(sequencelength, violationrate, reverseblocks, forwardblocks, repetitions)
-
-%************FOR TESTING***********************
-% sequencelength=7;
-% violationrate=.14;
-% reverseblocks=4;
-% forwardblocks=4;
+function [s,originalsequence] = sequencer(sequencelength, violationrate, reverseblocks, forwardblocks, repetitions)
+% 
+% ************FOR TESTING***********************
+% sequencelength=5;
+% violationrate=0;
+% reverseblocks=10;
+% forwardblocks=10;
 % repetitions=4;
 
     maxconsecutive = 1;
@@ -14,36 +14,36 @@ function [s,tempsequence] = sequencer(sequencelength, violationrate, reversebloc
     %original sequence
     while valid == 0
         
-        tempsequence = [];
+        originalsequence = [];
         for i = 1:sequencelength
-            tempsequence(i) = randi(4);
+            originalsequence(i) = randi(4);
         end
-        run_starts = [0 find(diff(tempsequence) ~= 0)] + 1;
+        run_starts = [0 find(diff(originalsequence) ~= 0)] + 1;
         run_lengths = [diff(run_starts), sequencelength - run_starts(end) + 1];
         if (any(run_lengths > maxconsecutive))
             continue;
         end
 
         if sequencelength >=4
-            if ~ismember(1, tempsequence) || ~ismember(2, tempsequence) || ~ismember(3, tempsequence) || ~ismember(4, tempsequence)
+            if ~ismember(1, originalsequence) || ~ismember(2, originalsequence) || ~ismember(3, originalsequence) || ~ismember(4, originalsequence)
                 continue;
             end
         end
         
-        if tempsequence(1) == tempsequence(sequencelength)
+        if originalsequence(1) == originalsequence(sequencelength)
             continue;
         end
         valid = 1;
-        sequence = tempsequence;
+        
     end
     
     for j=1:total
         
-       
+         sequence = originalsequence;
         
         for numseq = 1:sequencelength %length of the sequence
             
-            
+         
             
             %Markov's rule
             if violationrate > 0

@@ -9,8 +9,8 @@ if nargin < 10
         
         % Default values       
         def = {'1234','20', '1.25','1', 'NS'}; %Default is Neutral/sad 
-        answer = inputdlg(prompt, dlg_title, num_lines, def)
-        answer{5}~='NS'
+        answer = inputdlg(prompt, dlg_title, num_lines, def);
+        answer{5}~='NS';
         if isempty(answer), return, end;
         
 %          Input validation

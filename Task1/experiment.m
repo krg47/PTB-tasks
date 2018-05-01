@@ -1,4 +1,4 @@
-function [imgnum,gender,valence,response,responsetime] = experiment(MaleNames, FemaleNames, d, repetitions, ISI, subID, prob,emotion) %made this a function so that the arguments can be changed more easily
+function [imgnum,sex,valence,response,responsetime] = experiment(MaleNames, FemaleNames, d, repetitions, ISI, subID, prob,emotion) %made this a function so that the arguments can be changed more easily
 
 % Number of names
 namenum = length(MaleNames);
@@ -42,10 +42,9 @@ while KbCheck; end % Wait until all keys are released.
 while 1
     % Check the state of the keyboard.
     [keyIsDown,~,keyCode] = KbCheck;
-    % If the user is pressing a key, then display its code number and name.
     if keyIsDown
         v = find(keyCode);
-        if v == 46
+        if v == 46 %if "=" is pressed
             break;
         end
     end
@@ -56,12 +55,12 @@ WaitSecs(ISI);
 % Randomly choose left/right happy/sad
 x = rand;
 if x < .5
-    H = 80;
-    S = 79;
+    H = 80; %left arrow key
+    S = 79; %right arrow key
 end
 if x >= .5
-    H = 79;
-    S = 80;
+    H = 79; %right arrow key
+    S = 80; %left arrow key
 end
 
 faces = {d.name};
@@ -114,7 +113,7 @@ while i < repetitions + 1
     
     % Switch left/right if at the switching point
     if i == switchingpoint
-        
+        %switches happy (or neutral) and sad
         if H == 79
             H = 80;
             S = 79;

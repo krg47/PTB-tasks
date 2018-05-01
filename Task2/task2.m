@@ -50,7 +50,7 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
             else
                 
                 %           Set values
-                validInput = true
+                validInput = true;
                 subID = answer{1};
                 reverseblocks = str2num(answer{2});
                 forwardblocks = str2num(answer{3});
