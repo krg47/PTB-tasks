@@ -4,26 +4,27 @@
 
     % To launch, click "Run" in task3.m or call function task3 as in 
         % example below. 
-    % Press the "=" key to start the experiment
+    % Press the "=" key to start the experiment.
+    % Inter-Stimulus Interval (ISI) is the amount of time between each
+        % selection.
     % A face will be randomly selected and displayed on either the right or
-    % left side of the screen.
+        % left side of the screen.
     % Another face will appear on the opposite side of the screen with a
-    % shape around it.
-    % Underneath the face surrounded by a shape, one of four questions will be randomly presented:
+        % shape around it.
+    % Underneath the face surrounded by a shape, one of four prompts will be randomly presented:
         % 1. Match Shape (Cognitive Easy); 
-        % Two shapes will appear underneath the prompt, and the
-        % test subject needs to match the shape.
+            % Two shapes will appear underneath the prompt, and the
+            % test subject needs to match the shape.
         % 2. Even or Odd (Cognitive Hard); 
-        % The words "Even" and "Odd" will
-        % appear underneath the prompt, and the test subject needs to
-        % determine if the shape has an odd or even number of sides or
-        % vertices.
+            % The words "Even" and "Odd" will appear underneath the prompt, 
+            % and the test subject needs to determine if the shape has
+            %  an odd or even number of sides.
         % 3. Match Face (Emotional Easy);
-        % Two faces will appear underneath the prompt, and the test subject
-        % needs to select the exact face that matches.
+            % Two faces will appear underneath the prompt, and the test subject
+            % needs to select the exact face that matches.
         % 4. Match Emotion (Emotional Hard);
-        % Two different faces will appear underneath the prompt, and the
-        % subject needs to select the face that matches the emotion.
+            % Two different faces will appear underneath the prompt, and the
+            % subject needs to select the face that matches the emotion.
  
 % Adjustable parameters:
 
