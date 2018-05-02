@@ -43,7 +43,12 @@
     % maketask.m - randomizes what type of face appears first
     % face1display.m - displays the first face
     % polygon.m - displays the second face with a surrounding shape
-    % choicedisplay.m - displays the the questions and choices 
+    % choicedisplay.m - displays the the questions and choices
+    % subject_1234.mat - example data output
+    % t3screenshot.mat - example data output
+    % tasks.mat - example data output
+    % Faces - Folder of all of the faces used in the task
+    % Shapes - Folder of all the shapes used in the task
 
 %Example Use
     subID = '1234';
