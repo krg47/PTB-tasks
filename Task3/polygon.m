@@ -16,6 +16,29 @@ function polygon(t, screens, screenNumber,  black, window, windowRect, screenXpi
     heightScalers = .58;
     shapeHeights = screenYpixels .* heightScalers;
     shapeWidths = shapeHeights .* aspectRatio;
+    
+    
+    if t.startside == 'R' && numsides == 4
+        heightScalers = 0.58;
+        shapeHeights = screenYpixels*0.90 .* heightScalers;
+        shapeWidths = shapeHeights .* aspectRatio;
+    elseif t.startside == 'L' && numsides == 4
+        heightScalers = 0.58;
+        shapeHeights = screenYpixels*0.90 .* heightScalers;
+        shapeWidths = shapeHeights .* aspectRatio;
+    end
+
+    
+    if t.startside == 'R' && numsides == 6
+        heightScalers = 0.58;
+        shapeHeights = screenYpixels*0.9 .* heightScalers;
+        shapeWidths = shapeHeights .* aspectRatio;
+    elseif t.startside == 'L' && numsides == 6
+        heightScalers = 0.58;
+        shapeHeights = screenYpixels*0.9 .* heightScalers;
+        shapeWidths = shapeHeights .* aspectRatio;
+    end
+        
 
     dstRects = zeros(4, 1);
     faceRects = zeros(4, 1);

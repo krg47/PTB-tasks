@@ -26,20 +26,20 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     
 end
 
-sz = Screen('TextSize', window, 60); %80
+sz = Screen('TextSize', window, 70); %80
 white = WhiteIndex(screenNumber);
 y = screenYpixels*.73;
   
 if t.startside == 'L' && not(strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard'))
-    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.61, y, white);
+    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.58, y, white);
 elseif t.startside == 'R' && not(strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard'))
-    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.17,  y, white);
+    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.15,  y, white);
 end
 
 if t.startside == 'L' && strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard')
-    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.58, y, white);
+    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.56, y, white);
 elseif t.startside == 'R' && strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorhard,'Hard')
-    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.14,  y, white);
+    DrawFormattedText(window, questiontext{1}, screenXpixels * 0.12,  y, white);
 end
 
 % TODO: complete these if statements
@@ -101,11 +101,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     %       t.secondchoice -> number of sides on second choice shape
     %       Look at polygon.m lines 9 - 44 on how to display the shape images.
     %       You will need to adjust so that they display where you want them (under the face w/ the shape)
-    %
-    %       Tom's note - I tried to replicate what was in polygon.m under
-    %       firstchoice=t.firstchoice and secondchoice=t.secondchoice to test if that did anything, but it
-    %       just gave me a bunch of errors. I commented it out.
-    
+ 
     firstchoice = t.firstchoice;
     shapename = strcat('..', filesep, 'Task3', filesep, 'Shapes', filesep, num2str(firstchoice),'.PNG');
     
@@ -164,17 +160,17 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     
     if t.startside == 'L'
         
-        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels*.85);
+        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels * .85);
         Screen('DrawTexture', window, shapeTexture2, [-1, -2, sizes(2) + 1, sizes(1) + 1], dstRects);
         
-        dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .83, screenYpixels*.85);
+        dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .83, screenYpixels * .85);
         Screen('DrawTexture', window, shape2Texture, [-1, -1, sizes2(2) + 1, sizes2(1) + 1], dstRects2);
         
     elseif t.startside == 'R'
-        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .15, screenYpixels*.85);
+        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .15, screenYpixels * .85);
         Screen('DrawTexture', window, shapeTexture2, [-1, -2, sizes(2) + 1, sizes(1) + 1], dstRects);
         
-        dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .40, screenYpixels*.85);
+        dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .40, screenYpixels * .85);
         Screen('DrawTexture', window, shape2Texture, [-1, -1, sizes2(2) + 1, sizes2(1) + 1], dstRects2);
         
     end
@@ -185,16 +181,16 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
 elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     %         display choices "even" and "odd"
     
-    Screen('TextSize', window, 80);
+    Screen('TextSize', window, 100);
     if t.startside == 'L' %We are displaying the choices under the right side
         
-        DrawFormattedText(window, 'Even', screenXpixels * .53,  screenYpixels*.85, white);
-        DrawFormattedText(window, 'Odd', screenXpixels * .80, screenYpixels*.85, white);
+        DrawFormattedText(window, 'Even', screenXpixels * .51,  screenYpixels*.87, white);
+        DrawFormattedText(window, 'Odd', screenXpixels * .78, screenYpixels*.87, white);
         
     elseif t.startside == 'R' %We are displaying the choices under the left side
         
-        DrawFormattedText(window, 'Even', screenXpixels*.08,  screenYpixels*.85, white);
-        DrawFormattedText(window, 'Odd', screenXpixels*.38,  screenYpixels*.85, white);
+        DrawFormattedText(window, 'Even', screenXpixels*.06,  screenYpixels*.87, white);
+        DrawFormattedText(window, 'Odd', screenXpixels*.36,  screenYpixels*.87, white);
         
     end
     
