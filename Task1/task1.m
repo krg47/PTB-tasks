@@ -9,15 +9,15 @@ PsychDefaultSetup(2);
 % Get user input and validate
 if nargin < 5
     [subID, repetitions, ISI, prob, emotion] = userinput;
-
+    
     if emotion(1) == 'N' && emotion(2) == 'S'
         d = ['..' filesep 'Task1' filesep 'NS' filesep '*.JPG'];
     end
     if emotion(1) == 'N' && emotion(2) == 'F'
-            d = ['..' filesep 'Task1' filesep 'NF' filesep '*.JPG'];
+        d = ['..' filesep 'Task1' filesep 'NF' filesep '*.JPG'];
     end
     if emotion(1) == 'H' && emotion(2) == 'S'
-                d = ['..' filesep 'Task1' filesep 'HS' filesep '*.JPG'];
+        d = ['..' filesep 'Task1' filesep 'HS' filesep '*.JPG'];
     end
 end
 
@@ -30,9 +30,13 @@ fclose(mid);
 
 F = textscan(fid, '%s', 'delimiter', '\n');
 FemaleNames = F{1};
-fclose(fid); 
+fclose(fid);
 
 %Run experimental task
 experiment(MaleNames, FemaleNames, d, repetitions, ISI, subID, prob, emotion);
+
+%save with date
+filename = strcat('subject_',subID,'_',date,'.mat');
+copyfile(strcat('subject_',subID,'.mat'),filename);
 
 end
