@@ -2,7 +2,7 @@
 
 % Design:
 
-    % To launch the task, click "Run" in task2.m or call the function "task2" as in example below. 
+    % To launch the task, click "Run" in task2.m or call the function "task2" as in the example below. 
     % Press the "=" key to start the experiment, as prompted.
     % A face will appear in one of the fours squares on the screen.
     % Select the corresponding number (1,2,3,or 4) in relation to what square the face appears.
@@ -21,19 +21,19 @@
         % Interblock Interval (IBI) is a lengthy (4 - 6 seconds) pause between two groups of sequences.  
     % At least two blocks must be presented before the faces change emotion and the valence only changes between blocks.
         % The valence is the percentage of emotion on each face.
-        % The first two blocks are used to establish a baseline speed, using neutral faces.
+        % The first two blocks use neutral faces to establish a baseline speed.
     % The speed that it takes each block (the average of sequence speeds) will be
     % recorded and used to determine the valence of the next block.
     % A 5% change in speed will result in a 10% change in face emotion.
     % Initially, faster speeds result in increasingly negative valences (reverse learning).
     % At some point in the experiment, learning is reversed so that faster
     % speeds result in increasingly positive valences (forward learning).
-    % All of the sequences are generated randomly, but must abide by these parameters:
+    % All of the sequences are generated randomly, but they all must abide by these parameters:
         % The sequences cannot have consecutive, repeating numbers.
         % The sequences cannot have the same number at the beginning and end (due to cycling).
         % The sequences must contain every number - each must contain 1,2,3,and 4.
-    % At random, the sequence will cycle. The last number in the sequence
-        % will be move to the first position. (i.e.(1,2,3,4,1,2,3) -> (3,1,2,3,4,1,2))
+    % At random, the sequence will cycle. For example, the last number in the sequence
+        % may be move to the first position. (i.e.(1,2,3,4,1,2,3) -> (3,1,2,3,4,1,2))
     % To model Markov Chains, a violation rate (a percentage) can be added. Another
     % sequence will be inserted at random. In other words, subjects must
     % learn the sequence so well that they can identify when the
