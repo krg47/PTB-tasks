@@ -35,10 +35,10 @@
     % At random, the sequence will cycle. For example, the last number in the sequence
         % may be move to the first position. (i.e.(1,2,3,4,1,2,3) -> (3,1,2,3,4,1,2))
     % To model Markov Chains, a violation rate (a percentage) can be added. Another
-    % sequence will be inserted at random. In other words, subjects must
+    % sequence will be inserted at random. In other words, participants must
     % learn the sequence so well that they can identify when the
     % sequence is altered. 
-    % The test subject must obtain a certain accuracy to be considered for
+    % The participant must obtain a certain accuracy to be considered for
     % analysis. 
     % The program records the following data from the task in a file titled "<subect_ID>.mat":
         % Image displayed
@@ -62,12 +62,14 @@
     % Violation Rate
     % Sequence Length
 
-% File/Directory Descriptions
+% File/Directory Descriptions:
 
-    % Working directory should include these files/folders:
+    % The working directory should include these files/folders:
+        % README.m - This is the README. It's purpose is to guide
+            % laboratories through the process of using this task.
         % task2.m - This is the main body of the program, and it calls all
             % of the other functions. It is responsible for data storage as well.
-        % waittostart.m - This sets up the screen for display, and waits until "=" is pressed to begin the task 
+        % waittostart.m - This sets up the screen for display, and waits until "=" is pressed to begin the task. 
         % sequencer.m - This randomly generates sequences following the aformentioned parameters.
         % squares.m - This displays the squares where the faces are positioned as well as the faces. 
         % analyze.m - This calculates the percent change in valence based
@@ -79,19 +81,19 @@
                 % have their faces stored from most happy to most sad)
 
 
-% Example use
-subID = '1234'; %subject ID
-reverseblocks = 8; %number of blocks where faster times -> unhappy faces
-forwardblocks = 4; %number of blocks where faster times -> happy faces
-repetitions = 4; %number of times the sequence is shown per block
-ITI = 0; %inter-trial interval (between each sequence)
-ISI = 1.25; %inter-stimulus interval (between each face)
-IBI = 5; %inter-block interval
-sex = 'F'; %sex of the subject
-race = 'W'; %race of the subject
-emotion = 'NS'; % emotion spectrum to be used. NS = neutral - sad; NF = neutral - fear; HS = happy - sad
-violationrate = 0; 
-sequencelength = 7; 
+% Example Use:
+    subID = '1234'; %subject ID
+    reverseblocks = 8; %number of blocks where faster times -> unhappy faces
+    forwardblocks = 4; %number of blocks where faster times -> happy faces
+    repetitions = 4; %number of times the sequence is shown per block
+    ITI = 0; %inter-trial interval (between each sequence)
+    ISI = 1.25; %inter-stimulus interval (between each face)
+    IBI = 5; %inter-block interval
+    sex = 'F'; %sex of the subject
+    race = 'W'; %race of the subject
+    emotion = 'NS'; % emotion spectrum to be used. NS = neutral - sad; NF = neutral - fear; HS = happy - sad
+    violationrate = 0; 
+    sequencelength = 7; 
 
 task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, sex, race, emotion, violationrate, sequencelength);
 
