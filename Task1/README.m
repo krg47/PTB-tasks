@@ -30,7 +30,7 @@
         % Neutral to Sad (NS)
         % Neutral to Fearful (NF)
         % Happy to Sad (HS)
-    % The program records the following data from the task in a file titled "<test_ID>.mat" that records:
+    % The program records the following data from the task in a file titled "<test_ID>.mat":
         % Image numbers (i.e., which image was shown)
         % Group of image (A or B)
             % NOTE: Originally, we had two sets of images, but we
@@ -39,6 +39,7 @@
         % Valence of individual's face in the image
         % Participant's response (left or right)
         % Reaction time
+        % Which side produces a more positive face
 
 % Adjustable parameters:
 
