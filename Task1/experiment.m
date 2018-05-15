@@ -62,9 +62,18 @@ if x >= .5
     H = 79; %right arrow key
     S = 80; %left arrow key
 end
-
+  
+    
 faces = {d.name};
 i = 0;
+
+% if x < 0.5
+%     positive{i+1,:} ='L'; %records which side is most positive (happy or neutral)
+% end
+% 
+% if x >= 0.5
+%     positive{i+1,:} ='R';
+% end
 
 while true %Make sure first face is neutral
     idx = randi(length(faces));
@@ -103,6 +112,7 @@ sex{1} = file(2);
 valence{1} = file(5);
 group{1} = file(1);
 names{1}=file(1:4);
+% positive{1}=file(6);
 
 Screen('Flip', window);
 
@@ -249,6 +259,7 @@ while i < repetitions + 1
         valence{i,:} = file(5);
         group{i,:} = file(1);
         names{i,:} = fname(1:4);
+        %positive{i,:} = file(6);
     end
     
     

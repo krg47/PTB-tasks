@@ -1,4 +1,4 @@
-function [subID, repetitions, ISI, prob, emotion] = userinput
+ function [subID, repetitions, ISI, prob, emotion] = userinput
 
 validInput = false;
 if nargin < 10

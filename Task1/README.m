@@ -11,12 +11,12 @@
         % The left arrow key corresponds to the left name and the right key
         % arrow key corresponds to the right name.
         % NOTE: There is no correct answer; the names that appear underneath each face are random.
-    % When a key is selected, the face and names will disappear. After a short Interstimulus Interval,  another
+    % When a key is selected, the face and names will disappear. After a short Interstimulus Interval, another
     % face and two more names will appear.
         % The Interstimulus Interval (ISI) is the time between the disappearance
         % of one face and the appearance of another.
     % Depending on what key was selected, the next face that appears should
-    % have a certain valence (e.g., more sad, fearful, happy, etc).
+    % have a certain valence (e.g., more sad, fearful, happy, etc.).
         % The valence is the emotion of the face.
     % For example, the left key may produce a neutral face while the
     % right key produces a sad face. The side that produces this effect is
@@ -51,7 +51,7 @@
 % File/Directory Descriptions:
 
     % The working directory should include these files/folders:
-        % README.m - This is the README. It's purpose is to guide
+        % README.m - This is the README. Its purpose is to guide
             % laboratories through the process of using this task.
         % task1.m - This is the main body of the program, and it calls all of the other functions.
         % userinput.m - This allows for the input of adjustable parameters.
