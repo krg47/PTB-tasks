@@ -56,11 +56,9 @@
             % laboratories through the process of using this task.
         % task1.m - This is the main body of the program, and it calls all of the other functions.
         % userinput.m - This allows for the input of adjustable parameters.
-        % waittostart.m - This sets up the screen for display, and waits until "=" is pressed to begin the task. 
         % experiment.m - This selects random faces, random names, and selects the next face 
             % based on the participant's keypress and the probability of bias.
         % displayface.m - This displays the faces and the names.
-        % test_ID.mat - This contains data collected by the task.
         % NS - This is a folder that contains the faces for the Neutral to Sad option.
         % NF - This is a folder that contains the faces for the Neutral to Fearful option.
         % HS - This is a folder that contains the faces for the Happy to Sad option.

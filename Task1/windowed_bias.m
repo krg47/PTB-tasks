@@ -1,62 +1,66 @@
-function [avg_windowed5_bias] = windowed_bias(valence,response,bias,nonbias) 
-% sum(strcmp(valence(strcmp(response,'R')),'S'))/length(valence(strcmp(response,'R')))*100
-    % strcmp(response) filters response for R and sets R as 1. For strcmp(valence) takes all the
-    % valences that have response R and displays them as: S=1 and N=0. The sum
-    % adds all of these values. Length gives a number of how many responses
-    % there are that the 'R' arrow key was pressed. 
-% sum(strcmp(valence(strcmp(response,'R')),'N'))/length(valence(strcmp(response,'R')))*100
-% sum(strcmp(valence(strcmp(response,'L')),'S'))/length(valence(strcmp(response,'L')))*100
-% sum(strcmp(valence(strcmp(response,'L')),'N'))/length(valence(strcmp(response,'L')))*100
-
+function [avg_windowed5_bias,std_windowed5_bias, avg_bias_quarter] = windowed_bias(valence,response,bias)
 % example
-% avg_windowed5_bias = windowed_bias(valence,response,bias,nonbias);
+% [avg_windowed5_bias,avg_bias_quarter] = windowed_bias(~,response,bias,nonbias);
 
-% if sum(strcmp(valence,'H')) > 0
-%     positive = 'H'
-% else
-%     positive = 'N'
-% end
-
-% avg_windowed5_bias = movmean(strcmp(response,bias),5,'Endpoints','discard')*100
-% I need have a plot where the x axis is the # of stimuli minus 4
-% plot(avg_windowed5_bias,'*-');
-% axis([0 length(avg_windowed5_bias) 0 100]);
-
-% 80% of the time, the right arrow key produces a more negative face. That
-% means this if the experimentalist should implicitly want to see more
-% neutral faces then therer should be an average of 20% for hitting the
-% right key and 80% hitting the left key. Therefore, if we plot average
-% bias vs. time, shouldn't we see the data reach 20% and then plateau?
-
-% If the bias is going toward the more negative face, shouldn't someone
-% without MDD implicitly want to become less negative and thus implicitly
-% press the button that leads toward a less negative result?
-
+% Sets the nonbias variable based on the bias variable
 if bias == 'R'
-    nonbias = 'L'
+    nonbias = 'L';
 elseif bias == 'L'
-    nonbias = 'R'
+    nonbias = 'R';
 end
 
-avg_windowed5_bias_1sthalf = movmean(strcmp(response(1:(length(response)/2)+2),bias),5,'Endpoints','discard')*100;
-figure(1);
-plot(avg_windowed5_bias_1sthalf,'*-');
-axis([0 length(avg_windowed5_bias_1sthalf) 0 100]);
+% The average windowed bias over the span of 5 response values
+avg_windowed5_bias = movmean(strcmp(response,bias),5,'Endpoints','shrink');
+std_windowed5_bias = movstd(strcmp(response,bias),5,'Endpoints','shrink');
 
-avg_windowed5_bias_2ndhalf = movmean(strcmp(response(((length(response)/2)-1):length(response)),nonbias),5,'Endpoints','discard')*100;
+figure;
+errorbar(avg_windowed5_bias,std_windowed5_bias,'*-r');
+hold all;
+h = gca;
+y = [h.YLim(1):0.2:h.YLim(2)];
+plot(round(length(response)/2)*ones(length(y),1),y,'black--');
+title('Average Windowed (5) Bias vs. Time');
+
+% The quarterly averages of the responses
+quarters = [1:floor(length(response)/4):length(response)];
+for idx = 1:4
+    avg_bias_quarter(idx,:) = nanmean(avg_windowed5_bias(quarters(idx):quarters(idx+1)));
+    std_bias_quarter(idx,:) = nanstd(avg_windowed5_bias(quarters(idx):quarters(idx+1)));
+end
+
 figure(2);
-plot(avg_windowed5_bias_2ndhalf,'*-');
-axis([0 length(avg_windowed5_bias_2ndhalf) 0 100]);
+errorbar(avg_bias_quarter,std_bias_quarter,'*-r');
+title('Average Quarter Bias vs. Time');
 
-C = [avg_windowed5_bias_1sthalf;avg_windowed5_bias_2ndhalf]
+% Make sure that the probability of bias is functioning properly
+% If the probability of bias is 0.80, the other key should have a 0.20 bias
+% that the next face is a negative valence
 
-avg_windowed5_bias_whole = movmean(strcmp(response,bias),5,'Endpoint','discard')*100;
-figure(3);
-plot(avg_windowed5_bias_whole,'*-r');
-axis([0 length(avg_windowed5_bias_whole) 0 100]);
+side = unique(response);
+valence_group = unique(valence);
 
-figure(4)
-plot(C,'*-g');
-axis([0 length(C) 0 100]);
-% avg_windowed5_nonbias_1sthalf = movmean(strcmp(response(1:length(response)/2),nonbias),5,'Endpoints','discard')*100
-% avg_windowed5_nonbias_2ndhalf = movmean(strcmp(response((length(response)/2)+1:length(response)),nonbias),5,'Endpoints','discard')*100
+count = 1;
+for sidx = 1:length(side)
+    for vidx = 1:length(valence_group)
+        cur_side = side(sidx);
+        cur_valence_group = valence_group(vidx);
+        idx = find(strcmp(response(1:round(end/2)),cur_side))+1;
+        data(count,:) = sum(strcmp(valence(idx),cur_valence_group))/length(idx)*100;
+        data_val_1(count,:) = ['first half' cur_side cur_valence_group];
+        count = count + 1;
+    end
+end
+
+count = 1;
+for sidx = 1:length(side)
+    for vidx = 1:length(valence_group)
+        cur_side = side(sidx);
+        cur_valence_group = valence_group(vidx);
+        idx = find(strcmp(response(round(end/2)+1:end),cur_side))+1;
+        data(count,:) = sum(strcmp(valence(idx),cur_valence_group))/length(idx)*100;
+        data_val_2(count,:) = ['second half' cur_side cur_valence_group];
+        count = count + 1;
+    end
+end
+
+data_val = [data_val_1; data_val_2]
