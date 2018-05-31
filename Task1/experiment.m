@@ -72,11 +72,6 @@ elseif x >= 0.5
     bias = 'L';
 end
 
-% if bias = 'R'
-%     nonbias = 'L'
-% elseif bias = 'L'
-%     nonbias = 'R'
-% end
 
 while true %Make sure first face is neutral
     idx = randi(length(faces));
