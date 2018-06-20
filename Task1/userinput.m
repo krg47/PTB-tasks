@@ -1,5 +1,19 @@
 function [subID, repetitions, ISI, prob, emotion] = userinput
+%% -------- DESCRIPTION --------
+% Function generates a pop up of parameters that may be changed per
+% experimentalist.
 
+%% -------- INPUTS --------
+
+
+%% -------- OUTPUTS --------
+% Outputs subID, repetitions, ISI, prob, and emotion associated with
+% experimentalist. 
+
+%% -------- EXAMPLE --------
+
+
+%% -------- FUNCTION --------
 validInput = false;
 if nargin < 10
     while ~validInput

@@ -1,12 +1,35 @@
 function [s,originalsequence] = sequencer(sequencelength, violationrate, reverseblocks, forwardblocks, repetitions)
-% 
-% ************FOR TESTING***********************
-% sequencelength=5;
-% violationrate=0;
-% reverseblocks=10;
-% forwardblocks=10;
-% repetitions=4;
+%% -------- DESCRIPTION --------
+% Function randomly generates sequences as long as a number does not show
+% up twice sequentially, the same number does not appear at the beginnning and the
+% end, and all four numbers must appear in the sequence.
 
+%% -------- INPUTS --------
+% sequencelength = how many faces are shown in a sequence [number, 3-8]
+% violationrate = the percentage of how the sequence may be violated [number, 0-1]
+% reverseblocks = faster time = less positive faces [number, 4-8]
+% forwardblocks = faster time = more positive faces [number, 4-8]
+% repetitions = how many sequences are shown in a block [number, 0-10]
+
+%% -------- OUTPUTS --------
+% s = 
+% originalsequence = the randomly generated sequence
+
+%% -------- EXAMPLE --------
+% subID = '1234'
+% reverseblocks = 8
+% forwardblocks = 4
+% repetitions = 4
+% ITI = 0
+% ISI = 1.25
+% IBI = 5
+% sex = 'F'
+% race = 'W'
+% emotion = 'NS'
+% violationrate = 0
+% sequencelength = 7
+
+%% -------- FUNCTION --------
     maxconsecutive = 1;
     valid = 0;
     total=(reverseblocks+forwardblocks)*repetitions;
@@ -16,7 +39,7 @@ function [s,originalsequence] = sequencer(sequencelength, violationrate, reverse
         
         originalsequence = [];
         for i = 1:sequencelength
-            originalsequence(i) = randi(4);
+            originalsequence(i) = randi(4); %#ok
         end
         run_starts = [0 find(diff(originalsequence) ~= 0)] + 1;
         run_lengths = [diff(run_starts), sequencelength - run_starts(end) + 1];
@@ -67,7 +90,7 @@ function [s,originalsequence] = sequencer(sequencelength, violationrate, reverse
                         
                         counter = counter + 1;
                     end
-                    options=options(find(options~=0));
+                    options=options(find(options~=0)); %#ok
                     ranmarkov = rand(1);
                     
                     if length(options) == 1
@@ -89,6 +112,6 @@ function [s,originalsequence] = sequencer(sequencelength, violationrate, reverse
         if violationrate == 0 %only shift if there is no violation rate
             sequence = circshift(sequence, randi(sequencelength)); %this rotates sequence by random amount
         end
-        s(j).sequence=sequence;
+        s(j).sequence=sequence; %#ok
     end
     save('s','s');

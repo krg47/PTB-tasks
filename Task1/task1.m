@@ -1,9 +1,31 @@
 function task1(subID, repetitions, ISI, prob, emotion)
+%% -------- DESCRIPTION --------
+% Function calls other functions for the Face-Name Task.
+% Other functions included: userinput.m, experiment.mat, displayface.m,
+% windowed_bias.m, README.m
 
+%% -------- INPUTS --------
+% subID = identification of particular experimentalist [string, full path]
+% repetitions = the number of faces that will appear for that subject [number, 0-160]
+% ISI (Interstimulus Inverval) = the time (seconds) between two faces [number, 0-3]
+% prob = the probability of bias, how likely a certain emotion will appear [number, 0-1]
+% emotion = what two emotions will show while the task is running [string, (NS,HS,NF)]
+
+%% -------- OUTPUTS --------
+% Outputs the subject identification and initiates usage of faces and names. 
+
+%% -------- EXAMPLE --------
+% subID = 1234
+% repetitions = 80
+% ISI = 1.25
+% prob = 0.80
+% emotion = NS
+
+%% -------- FUNCTION --------
 % Set up PTB
-Screen('Preference', 'SkipSyncTests', 1);
 sca;
 PsychDefaultSetup(2);
+Screen('Preference', 'SkipSyncTests',1);
 
 
 % Get user input and validate

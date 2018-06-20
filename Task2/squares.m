@@ -1,4 +1,41 @@
-function [responsetime, imgnum, theImage, fname, keyresponse] = squares(s, numseq, d, key,sequencelength,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion,violationrate,j)
+function [responsetime, imgnum, theImage, fname, keyresponse] = squares(s, numseq, d, key, sequencelength,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion)
+%% -------- DESCRIPTION --------
+% Function creates the squares in which the faces will appear. This
+% function also displays the faces.
+
+%% -------- INPUTS --------
+% s = 
+% numseq = 
+% d = 
+% sequencelength = how many faces are in a sequence [number 3-10]
+% window = 
+% screenXpixels = 
+% screenYpixels = 
+% yCenter =
+% responsetime = 
+% imgnum = 
+% keyresponse = 
+% k = 
+% delta =
+% emotion = 
+
+%% -------- OUTPUTS --------
+% s = 
+% originalsequence = the randomly generated sequence
+
+%% -------- EXAMPLE --------
+% subID = '1234'
+% reverseblocks = 8
+% forwardblocks = 4
+% repetitions = 4
+% ITI = 0
+% ISI = 1.25
+% IBI = 5
+% sex = 'F'
+% race = 'W'
+% emotion = 'NS'
+% violationrate = 0
+% sequencelength = 7
 %function to display squares and face
 
 neutralIndex = 1; %first image is neutral
@@ -38,8 +75,8 @@ end
 
 
 
-fpath = getfield(d(imgnum(k)), 'folder');
-fname = getfield(d(imgnum(k)),'name');
+fpath = getfield(d(imgnum(k)), 'folder'); %#ok
+fname = getfield(d(imgnum(k)),'name'); %#ok
 theImage = imread(strcat(fpath, filesep, fname));
 
 baseRect = [0 0 .22*screenXpixels .22*screenXpixels]; %dimensions
@@ -55,7 +92,7 @@ penWidthPixels = 6; % Pen width for the frames
 Screen('FillRect', window, [1 1 1], allRects, penWidthPixels); % Draw the rect to the screen
 
 imageTexture = Screen('MakeTexture', window, theImage);
-[s1, s2, s3] = size(theImage); %size of face
+[s1, s2, s3] = size(theImage); %#ok %size of face
 aspectRatio = s2 / s1; %find aspect ratio of face
 
 heightScalers = baseRect(3)/screenYpixels; %scales everything down based on screen

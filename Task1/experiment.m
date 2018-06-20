@@ -1,5 +1,32 @@
-function [imgnum,sex,valence,response,responsetime,bias] = experiment(MaleNames, FemaleNames, d, repetitions, ISI, subID, prob,emotion) %made this a function so that the arguments can be changed more easily
+function [imgnum,sex,valence,response,responsetime,bias] = experiment(MaleNames, FemaleNames, d, repetitions, ISI, subID, prob, emotion) %made this a function so that the arguments can be changed more easily
+%% -------- DESCRIPTION --------
+% Function selects random names and faces from lists and displays next face
+% depending on the button previously selected.
 
+%% -------- INPUTS --------
+% MaleNames = List of male names [string]
+% FemaleNames = List of female names [string]
+% d = variable to call directory [full path]
+% repetitions = the number of faces that will appear for that subject [number, 0-160]
+% ISI (Inter-Stimulus Inverval) = the time (seconds) between two faces [number, 0-3]
+% prob = the probability of bias, how likely a certain emotion will appear [number, 0-1]
+% emotion = what two emotions will show while the task is running [string, (NS,HS,NF)]
+
+%% -------- OUTPUTS --------
+% Outputs lists that provide the image number shown, the sex of the image,
+% the response, the response time, and the randomly generated bias.
+
+%% -------- EXAMPLE --------
+% MaleNames 
+% FemaleNames
+% d = dir(d)
+% subID = 1234
+% repetitions = 80
+% ISI = 1.25
+% prob = 0.80
+% emotion = NS
+
+%% -------- FUNCTION --------
 % Number of names
 namenum = length(MaleNames);
 switchingpoint = floor(repetitions / 2); % The point at which the pattern switches
@@ -247,10 +274,9 @@ while i < repetitions + 1
         end
     end
     
-    i = i + 1; %iterate
+    i = i + 1; % Iterate
     if i < repetitions + 1
-        
-        %       Save face data
+        % Save face data
         imgnum{i,:} = str2num(strcat(file(3), file(4)));
         sex{i,:} = file(2);
         valence{i,:} = file(5);

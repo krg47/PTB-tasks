@@ -1,5 +1,19 @@
 function [ screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter] = waittostart
+%% -------- DESCRIPTION --------
+% Function creates and executes a screen with the words "Waiting for
+% Experiment to Start"
 
+%% -------- INPUTS --------
+% 
+
+%% -------- OUTPUTS --------
+% Outputs the screen, screenNumber, black, window, windowRect,
+% screenXpixels, screenYpixels, xCenter, and yCenter which are used for
+% Psychtoolbox commands.
+%% -------- EXAMPLE --------
+
+
+%% -------- FUNCTION --------
 screens = Screen('Screens'); % Get the screen numbers and screen setup
 screenNumber = max(screens); 
 white = WhiteIndex(screenNumber);
