@@ -16,19 +16,9 @@ function file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i
 % emotion = the valences of the faces shown [string (NS,HS,NF)]
 
 %% -------- OUTPUTS --------
-% Outputs the faces and names on the screen.
-
-%% -------- EXAMPLE --------
-% fname = 
-% d = variable to call directory [full path]
-% window = where the image will display [full path]
-% namenum = the number of the name from either list [number]
-% MaleNames = List of male names [string]
-% FemaleNames = List of female names[string]
-% i = integar [number 0/1]
-% xCenter = the x axis center of the testing screen [number, 0] 
-% screenYpixels = positioning on the Y axis [number 1]
-% emotion = the valences of the faces shown [string (NS,HS,NF)]
+% Outputs the faces and names on the screen in the following locations. The
+% face will appear in the center of the screen. The names will appear in
+% the right and left corners of the screen. 
 
 %% -------- FUNCTION --------    
     file = fname;  %Get name from structure

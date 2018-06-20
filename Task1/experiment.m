@@ -13,19 +13,9 @@ function [imgnum,sex,valence,response,responsetime,bias] = experiment(MaleNames,
 % emotion = what two emotions will show while the task is running [string, (NS,HS,NF)]
 
 %% -------- OUTPUTS --------
-% Outputs lists that provide the image number shown, the sex of the image,
-% the response, the response time, and the randomly generated bias.
-
-%% -------- EXAMPLE --------
-% MaleNames 
-% FemaleNames
-% d = dir(d)
-% subID = 1234
-% repetitions = 80
-% ISI = 1.25
-% prob = 0.80
-% emotion = NS
-
+% Outputs lists that provide the the biased key of that trial, which images were used,
+% the names that were shown, the response of the experimentalist, the
+% response time for each image, the sex of the image shown, and the emotion
 %% -------- FUNCTION --------
 % Number of names
 namenum = length(MaleNames);
