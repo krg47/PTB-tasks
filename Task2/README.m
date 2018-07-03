@@ -74,6 +74,8 @@
         % squares.m - This displays the squares where the faces are positioned as well as the faces. 
         % analyze.m - This calculates the percent change in valence based
             % on the response time and impliments the appropriate change in emotion.
+        % facedisplay.m - This determines the next face to be shown and
+            % appropriately displays it.
         % Faces - this is a folder of morphed and cropped faces from which the program selects.
             % The Faces folder should store faces at :
                 % "Faces/<sex>/<race>/<model_no>/<emotion_spectrum>/" with face files as

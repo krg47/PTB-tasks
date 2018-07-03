@@ -1,24 +1,15 @@
 function [ screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter] = waittostart
 %% -------- DESCRIPTION --------
-% Function creates and executes a screen with the words "Waiting for
-% Experiment to Start"
-
-%% -------- INPUTS --------
-% 
-
-%% -------- OUTPUTS --------
-% Outputs the screen, screenNumber, black, window, windowRect,
-% screenXpixels, screenYpixels, xCenter, and yCenter which are used for
-% Psychtoolbox commands.
-%% -------- EXAMPLE --------
-
+% Function creates and positions the words "Waiting for Experiment to
+% Start" in the center of the screen. These words should be the verhy first
+% thing to appear after the syncing process for PTB.
 
 %% -------- FUNCTION --------
 screens = Screen('Screens'); % Get the screen numbers and screen setup
 screenNumber = max(screens); 
 white = WhiteIndex(screenNumber);
 black = [0 0 0];
-[window, windowRect] = PsychImaging('OpenWindow', screenNumber, black); %open black window
+[window, windowRect] = PsychImaging('OpenWindow', screenNumber, black); % Open black window
 Screen('BlendFunction', window, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 [screenXpixels, screenYpixels] = Screen('WindowSize', window);
 [xCenter, yCenter] = RectCenter(windowRect);
@@ -39,7 +30,7 @@ while 1
         if v == 46
             break;
         end
-        % waits until all keys have been released.
+        % Waits until all keys have been released.
     end
 end
-WaitSecs(0.5); %delay before start
+WaitSecs(0.5); % Delay before start

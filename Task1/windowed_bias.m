@@ -156,3 +156,4 @@ set(gca, 'xtick',[1 2],'xticklabel', {positive, negative});
 title('Response Time vs. Valence');
 
 save(savename,'sex_average','sex_std','valence_average','valence_std', 'bias_matrix');
+saveas(h,'Task_1_Analysis_.png');

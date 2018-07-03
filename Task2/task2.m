@@ -1,7 +1,36 @@
 function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, sex, race, emotion, violationrate)
 %% -------- DESCRIPTION --------
-% Function calls other functions for the Motor Sequence Task. Other
-% functions included: analyze.m, facedisplay.m, README.m, sequencer.m,
+% Function calls other functions for the Motor Sequence Task. 
+% A face will appear in one of the fours squares on the screen.
+% Select the corresponding number (1,2,3,or 4) in relation to what square the face appears.
+    % 1 is the left most square, 2 is the left center square, 3 is the
+    % right center square, 4 is the right most square.
+% Once the key is pressed, the face will disappear, and, after a short Interstimulus Interval, 
+% the same face will appear elsewhere.
+    % Interstimulus Interval (ISI) is a moderate (0.1 - 0.4 seconds) pause between two displayed faces.
+% After a designated number of faces have been shown, there will be a pause (Intertrial Interval). 
+% The number of faces shown between Intertrial Intervals is considered a sequence. 
+    % Intertrial Interval (ITI) is a brief (0 - 0.1 seconds) pause between sequences.
+    % A group of sequences is considered a block.
+% After a designated number of sequences have been presented, the Interblock Interval will pass.
+    % Interblock Interval (IBI) is a lengthy (4 - 6 seconds) pause between two groups of sequences.  
+% At least two blocks must be presented before the faces change emotion and the valence only changes between blocks.
+    % The valence is the percentage of emotion on each face.
+    % The first two blocks use neutral faces to establish a baseline speed.
+% The speed that it takes each block (the average of sequence speeds) will be recorded and used to determine the valence of the next block.
+% A 5% change in speed will result in a 10% change in face emotion.
+% Initially, faster speeds result in increasingly negative valences (reverse learning).
+% At some point in the experiment, learning is reversed so that faster speeds result in increasingly positive valences (forward learning).
+% All of the sequences are generated randomly, but they all must abide by these parameters:
+    % The sequences cannot have consecutive, repeating numbers, the sequences cannot have the same number at the beginning and end (due to cycling), 
+    % the sequences must contain every number - each must contain 1,2,3,and 4.
+% At random, the sequence will cycle. For example, the last number in the sequence
+    % may be move to the first position. (i.e.(1,2,3,4,1,2,3) -> (3,1,2,3,4,1,2))
+% To model Markov Chains, a violation rate (a percentage) can be added, and another
+% sequence will be inserted at random. In other words, participants must
+% learn the sequence so well that they can identify when the sequence is altered. 
+% The participant must obtain a certain accuracy to be considered for analysis. 
+% Other functions included: analyze.m, facedisplay.m, README.m, sequencer.m,
 % squares.m, waittostart.m
 
 %% -------- INPUTS --------
@@ -18,8 +47,16 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
 % violationrate = the percentage of how the sequence may be violated [number, 0-1]
 
 %% -------- OUTPUTS --------
-% Outputs the subject identification and initiates the displaying of a face
-% within a square
+% Once the equal sign (=) is pressed, four horizontally postitioned squares
+% on the screen with a face in one of them will appear. A soon as the
+% corresponding key (1,2,3,4) is pressed, that face will disappear and a
+% another face will appear in a different square. From this
+% process, a .mat file will be produced containing each image that was
+% shown, the experimentalist's response, the actual sequence, the response time (between each image),
+% if the response was correct or incorrect, the numbers for each sequence,
+% the total response time of each sequence, and the valence of each image.
+% subject_####.mat
+% subject_####_DD_MM_YYYY.mat
 
 %% -------- EXAMPLE --------
 % subID = '1234'
@@ -46,7 +83,7 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
             num_lines = 1;
 
             % Default values
-            def = {'1234','8', '4', '4', '1.25', '0.15', '5', 'F', 'W', 'NS', '0','7'}; %Default is Neutral/sad
+            def = {'1234','8', '4', '4', '1.25', '0.15', '5', 'F', 'W', 'NS', '0','7'}; % Default is Neutral/sad
             answer = inputdlg(prompt,dlg_title,num_lines,def);
 
             if isempty(answer),return,end;
@@ -118,7 +155,7 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
     lst = lst(~cellfun('isempty',lst));
 
     whichFace = randi(length(lst));
-    dirStr = (strcat(dirStr, lst(whichFace), filesep, emotion, filesep)); %Navigate to random subject's folder of this gender and race
+    dirStr = (strcat(dirStr, lst(whichFace), filesep, emotion, filesep)); % Navigate to random subject's folder of this gender and race
     dirStr = dirStr{1};
 
     tempd = dir(dirStr);
@@ -140,27 +177,24 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
 
 
 
-    neutralreps = 2; %number of neutral faces initially shown
+    neutralreps = 2; % Number of neutral sequences shown
 
-    %makes random sequence
-    rng('shuffle'); %resets random number generator
-%     sequences = csvread('sequences.csv');
-%     sz = size(sequences);
-%     rseq = randi(sz(1));
+    % Makes random sequence
+    rng('shuffle'); % Resets the random number generator
 
-    %sequence = sequences(rseq, :)
+    % sequence = sequences(rseq, :)
     [s, tempsequence] = sequencer(sequencelength, violationrate, reverseblocks, forwardblocks, repetitions);  
   
     % Show starting screen
     [screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter] = waittostart; %#ok % waittostart function 
 
-    key = 'N'; % key is N for initial neutral faces
+    key = 'N'; % Key is N for initial neutral faces
     img(1) = 0; %#ok
-    responsetime = zeros(1,repetitions * reverseblocks); % blank vectors
+    responsetime = zeros(1,repetitions * reverseblocks); % Blank vectors
     imgnum = zeros(1,repetitions * reverseblocks);
-    imgnum(1) = ceil(length(d)/2); % neutral in the middle
+    imgnum(1) = ceil(length(d)/2); % Neutral in the middle
     keyresponse = zeros(1,sequencelength);
-    delta = 0; % amount up or down to change the mood
+    delta = 0; % Amount up or down to change the mood
     totalblocks = reverseblocks + forwardblocks;
     reverse = true; % Always start with reverse learning. Switch after finishing reverseblocks
 
@@ -170,20 +204,14 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
         if j > reverseblocks
             reverse = false;
         end
-        for i = 1:repetitions % how many sequences we want
+        for i = 1:repetitions % How many sequences we want
            
             k = (i+(j-1)*repetitions);
 
             
-            for numseq = 1:sequencelength % length of the sequence
-
-
-%                 kk = k + numseq - 1;
-
-               
+            for numseq = 1:sequencelength % Length of the sequence
                 % Display faces
-                [responsetime, imgnum, theImage, fname,keyresponse] = squares(s, numseq, d, key,sequencelength, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, delta, emotion,violationrate,j); %#ok % display function 
-
+                [responsetime, imgnum, theImage, fname,keyresponse] = squares(s, numseq, d, key,sequencelength, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, delta, emotion,violationrate,j); %#ok % Displays function 
                 WaitSecs(ISI) % Wait between faces
             end
 
@@ -194,25 +222,20 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
             valence{k,:} = fname(5); %#ok
             totalResponseTime(k) = sum(responsetime); %#ok
             totalResponseTimeCell{k,:} = totalResponseTime(k); %#ok
-            keyresponseCell{k,:} = transpose(keyresponse-29); %#ok % store keyresponse as a column vector
+            keyresponseCell{k,:} = transpose(keyresponse-29); %#ok % Store keyresponse as a column vector
             imgCell{k,:} = fname; %#ok
             sequenceCell{k,:} = transpose(s(k).sequence); %#ok
             rightorwrongCell{k,:} = (keyresponseCell{k,:}==sequenceCell{k,:}); %#ok
             originalsequence{1,:}= transpose(tempsequence);%#ok
-            WaitSecs(ITI - ISI) % subtract ISI because it already waited ISI
+            WaitSecs(ITI - ISI) % Subtract ISI because it already waited ISI
         end
-
         if j > 2 % After 2 blocks, determine valence of subsequent face
-
-            baseline = (sum(responsetime(1:(repetitions * neutralreps * sequencelength)))) / neutralreps; %Avg of first 2 blocks
+            baseline = (sum(responsetime(1:(repetitions * neutralreps * sequencelength)))) / neutralreps; % Avg of first 2 blocks
             [key, delta] = analyze(responsetime, j,repetitions,k, baseline, reverse,sequencelength);
         end
-
-        WaitSecs(IBI); %Inter block interval
+        WaitSecs(IBI); % Inter block interval
     end
-
-    %Cell with all response times for keypresses
-
+    % Cell with all response times for keypresses
     totreps = length(responsetime) / sequencelength;
     for counter = 1 : totreps
         start = counter * sequencelength - (sequencelength-1);
@@ -221,10 +244,8 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
         responseTimeCell{counter,:} = responses; %#ok
     end
 
-    datafile = strcat('subject_',subID); %makes filename for results
-
+    datafile = strcat('subject_',subID); % Makes filename for results
     % Save data
-    
     save(datafile, 'responseTimeCell','totalResponseTimeCell', 'imgCell','valence', 'keyresponseCell', 'sequenceCell','rightorwrongCell', 'originalsequence');
     copyfile(strcat('subject_',subID,'.mat'),datafile);
     

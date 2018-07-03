@@ -1,14 +1,17 @@
-function t = face1display(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter, ISI, ICI)
+function t = face1display(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter, ISI)
+%% -------- DESCRIPTION --------
+% Function determines where the next face will be displayed on the screen.
 
-    a = t.startside;
+%% -------- FUNCTION --------
+    a = t.startside; %#ok
     facename = t.firstface;
     
     face = imread(strcat('..', filesep, 'Task3', filesep, 'Faces', filesep, facename));
     faceTexture = Screen('MakeTexture',window, face);
-    [s1, s2, s3] = size(face); %size of face
-    aspectRatio = s2 / s1; %find aspect ratio of face
+    [s1, s2, s3] = size(face); %#ok %size of face
+    aspectRatio = s2 / s1; % Find aspect ratio of face
 
-    heightScalers = .36; %scales everything up/down
+    heightScalers = .36; % Scales everything up/down
     faceHeights = screenYpixels .* heightScalers;
     faceWidths = faceHeights .* aspectRatio;
     
@@ -23,13 +26,13 @@ function t = face1display(t, screens, screenNumber,  black, window, windowRect, 
     Screen('DrawTextures', window, faceTexture, [],faceRects);
 
     % Flip to the screen
-    Screen('Flip', window, [], 1); % the 1 here means dont clear the screen when adding to it
+    Screen('Flip', window, [], 1); % The 1 here means do not clear the screen when adding to it
     WaitSecs(ISI);
 
-%   Display second face with shape
+    % Display second face with shape
     polygon(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter);
     WaitSecs(ISI);
 
-%   Display answer choices
+    % Display answer choices
     t = choicedisplay(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter);
 end

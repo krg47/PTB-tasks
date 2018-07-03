@@ -47,8 +47,7 @@ function task1(subID, repetitions, ISI, prob, emotion)
 % process, a .mat file will be produced containing the biased key of that trial, which image was used,
 % the names that were shown, the response of the experimentalist, the
 % response time for each image, the sex of the image shown, and the
-% emotion.
-% (valence) of the image. 
+% emotion (valence) of the image. 
 % subject_1234.mat
 % subject_1234_DD_MM_YYYY.mat
 

@@ -1,13 +1,9 @@
-function t = choicedisplay(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter)
+function t = choicedisplay(t, screenNumber, window, screenXpixels, screenYpixels)
+%% -------- DESCRIPTION --------
+% Function aids in displaying the polygon and displays the prompt and
+% answers.
 
-%for testing a specific question
-% t.cogoremo='Emotional';
-% t.easyorhard='Easy';
-% t.firstchoice = 'AF01HAS.JPG';
-% t.secondchoice = 'AF01HAS.JPG';
-% t.startside = 'L';
-%end testing
-
+%% -------- FUNCTION --------
 if strcmp(t.cogoremo, 'Emotional') && strcmp(t.easyorhard,'Easy')
     
     questiontext{1} = 'Match Face';
@@ -26,7 +22,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     
 end
 
-sz = Screen('TextSize', window, 70); %80
+sz = Screen('TextSize', window, 70); %#ok
 white = WhiteIndex(screenNumber);
 y = screenYpixels*.73;
   
@@ -42,26 +38,21 @@ elseif t.startside == 'R' && strcmp(t.cogoremo,'Emotional') && strcmp(t.easyorha
     DrawFormattedText(window, questiontext{1}, screenXpixels * 0.12,  y, white);
 end
 
-% TODO: complete these if statements
-% TOM'S STUFF PART 2 ****************************************************
-% This works when t.startside == 'L', please finish for t.startside == 'R'
-% Line 70 and line 90 are really what need done
 if strcmp(t.cogoremo, 'Emotional')
-    %display choices (face images)
+    % Display choices (face images)
     
-    %   Draw first face choice
+    % Draw first face choice
     facename = t.firstchoice;
     face = imread(strcat(['..' filesep 'Task3' filesep 'Faces' filesep], facename));
     faceTexture = Screen('MakeTexture', window, face);
-    [s1, s2, s3] = size(face); %size of face
-    aspectRatio = s2 / s1; %find aspect ratio of face
+    [s1, s2, s3] = size(face); %#ok % Size of face
+    aspectRatio = s2 / s1; % Find aspect ratio of face
     
-    heightScalers = .25; %scales everything up/down
+    heightScalers = .25; % Scales everything up/down
     faceHeights = screenYpixels .* heightScalers;
     faceWidths = faceHeights .* aspectRatio;
     theRect = [0 0 faceWidths(1) faceHeights(1)];
     
-    %need to work on positioning
     if t.startside == 'L'
         faceRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels*.87);
     elseif t.startside == 'R'
@@ -70,14 +61,14 @@ if strcmp(t.cogoremo, 'Emotional')
          
     Screen('DrawTextures', window, faceTexture, [],faceRects);
     
-    %   Draw second face choice
+    % Draw second face choice
     facename = t.secondchoice;
     face = imread(strcat(['..' filesep 'Task3' filesep 'Faces' filesep ], facename));
     faceTexture = Screen('MakeTexture', window, face);
-    [s1, s2, s3] = size(face); %size of face
-    aspectRatio = s2 / s1; %find aspect ratio of face
+    [s1, s2, s3] = size(face); %#ok % Size of face
+    aspectRatio = s2 / s1; % Find aspect ratio of face
     
-    heightScalers = .25; %scales everything up/down
+    heightScalers = .25; % Scales everything up/down
     faceHeights = screenYpixels .* heightScalers;
     faceWidths = faceHeights .* aspectRatio;
     theRect = [0 0 faceWidths(1) faceHeights(1)];
@@ -91,29 +82,26 @@ if strcmp(t.cogoremo, 'Emotional')
     Screen('DrawTextures', window, faceTexture, [],faceRects);
     Screen('Flip',window,[], 0);
     
-    
-    % END OF TOM'S STUFF PART 2 ****************************************************
-    
 elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     
-    %       display choices (shape images)
-    %       t.firstchoice -> number of sides on first choice shape
-    %       t.secondchoice -> number of sides on second choice shape
-    %       Look at polygon.m lines 9 - 44 on how to display the shape images.
-    %       You will need to adjust so that they display where you want them (under the face w/ the shape)
+    % Display choices (shape images)
+    % t.firstchoice -> number of sides on first choice shape
+    % t.secondchoice -> number of sides on second choice shape
+    % Look at polygon.m lines 9 - 44 on how to display the shape images.
+    % You will need to adjust so that they display where you want them (under the face w/ the shape)
  
     firstchoice = t.firstchoice;
     shapename = strcat('..', filesep, 'Task3', filesep, 'Shapes', filesep, num2str(firstchoice),'.PNG');
     
     [shape, ~, alpha]  = imread(shapename);
     
-    shapeTexture1 = Screen('MakeTexture', window, shape);
+    shapeTexture1 = Screen('MakeTexture', window, shape); %#ok
     shape(:, :, 4) = alpha;
     shapeTexture2 = Screen('MakeTexture', window, shape);
     
     
-    [s1, s2, s3] = size(shape); %size of face
-    aspectRatio = s2 / s1; %find aspect ratio of face
+    [s1, s2, s3] = size(shape); %#ok % Size of face
+    aspectRatio = s2 / s1; % Find aspect ratio of face
     
     heightScalers = .15;
     
@@ -125,7 +113,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     shapeWidths = shapeHeights .* aspectRatio;
     
     dstRects = zeros(4, 1);
-    shapeRects = zeros(4, 1);
+    shapeRects = zeros(4, 1); %#ok
     sizes = size(shape);
     
     secondchoice = t.secondchoice;
@@ -138,8 +126,8 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     shape2Texture = Screen('MakeTexture', window, shape2);
     shape2(:, :, 4) = alpha2;
     
-    [s12, s22, s32] = size(shape2); %size of face
-    aspectRatio2= s22 / s12; %find aspect ratio of face
+    [s12, s22, s32] = size(shape2); %#ok % Size of face
+    aspectRatio2= s22 / s12; % Find aspect ratio of face
     
     heightScalers2 = .15;
     
@@ -151,7 +139,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     shape2Widths = shape2Heights .* aspectRatio2;
     
     dstRects2 = zeros(4, 1);
-    shape2Rects = zeros(4, 1);
+    shape2Rects = zeros(4, 1); %#ok
     sizes2 = size(shape2);
     
     
@@ -176,18 +164,17 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     end
     
     Screen('Flip',window,[], 0);
-    %************************************************************
     
 elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
-    %         display choices "even" and "odd"
+    % Display choices "even" and "odd"
     
     Screen('TextSize', window, 100);
-    if t.startside == 'L' %We are displaying the choices under the right side
+    if t.startside == 'L' % Displaying the choices under the right side
         
         DrawFormattedText(window, 'Even', screenXpixels * .51,  screenYpixels*.87, white);
         DrawFormattedText(window, 'Odd', screenXpixels * .78, screenYpixels*.87, white);
         
-    elseif t.startside == 'R' %We are displaying the choices under the left side
+    elseif t.startside == 'R' % Displaying the choices under the left side
         
         DrawFormattedText(window, 'Even', screenXpixels*.06,  screenYpixels*.87, white);
         DrawFormattedText(window, 'Odd', screenXpixels*.36,  screenYpixels*.87, white);
@@ -199,22 +186,21 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     
 end
 
-% checks key response
+% Checks key response
 starttime = GetSecs;
-%     starttime(i) = GetSecs;
 
 KbName('UnifyKeyNames');
-while KbCheck; end % Wait until all keys are released.
+while KbCheck; end % Wait until all keys are released
 while 1
     % Check the state of the keyboard
     [keyIsDown,~,keyCode] = KbCheck;
     
-    % If the user is pressing a key, then display its code number and name.
+    % If the user is pressing a key, then display its code number and name
     if keyIsDown
         endtime = GetSecs;
         t.responsetime = endtime - starttime;
         
-        % Note that we use find(keyCode) because keyCode is an array.
+        % Note that we use find(keyCode) because keyCode is an array
         v = find(keyCode);
         break;
     end

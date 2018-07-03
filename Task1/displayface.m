@@ -1,6 +1,6 @@
 function file = displayface(fname, d, window, namenum, MaleNames, FemaleNames, i, xCenter, screenYpixels, emotion)
 %% -------- DESCRIPTION --------
-% Function selects actually displays the faces and names on the designated
+% Function actually displays the faces and names on the designated
 % screen.
 
 %% -------- INPUTS --------

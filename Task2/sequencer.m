@@ -5,36 +5,19 @@ function [s,originalsequence] = sequencer(sequencelength, violationrate, reverse
 % end, and all four numbers must appear in the sequence.
 
 %% -------- INPUTS --------
-% sequencelength = how many faces are shown in a sequence [number, 3-8]
-% violationrate = the percentage of how the sequence may be violated [number, 0-1]
-% reverseblocks = faster time = less positive faces [number, 4-8]
-% forwardblocks = faster time = more positive faces [number, 4-8]
-% repetitions = how many sequences are shown in a block [number, 0-10]
+% sequencelength = how many faces are shown in a sequence [number, 3-8];
+% appears in the user input window.
 
 %% -------- OUTPUTS --------
-% s = 
-% originalsequence = the randomly generated sequence
-
-%% -------- EXAMPLE --------
-% subID = '1234'
-% reverseblocks = 8
-% forwardblocks = 4
-% repetitions = 4
-% ITI = 0
-% ISI = 1.25
-% IBI = 5
-% sex = 'F'
-% race = 'W'
-% emotion = 'NS'
-% violationrate = 0
-% sequencelength = 7
+% originalsequence = the sequence that designated the location of the faces
+% stored in the subject_####.mat and subject_####_DD_MM_YYYY.mat files
 
 %% -------- FUNCTION --------
     maxconsecutive = 1;
     valid = 0;
     total=(reverseblocks+forwardblocks)*repetitions;
     
-    %original sequence
+    % Original sequence
     while valid == 0
         
         originalsequence = [];
@@ -64,21 +47,20 @@ function [s,originalsequence] = sequencer(sequencelength, violationrate, reverse
         
          sequence = originalsequence;
         
-        for numseq = 1:sequencelength %length of the sequence
+        for numseq = 1:sequencelength % Length of the sequence
             
          
             
-            %Markov's rule
+            % Markov's rule
             if violationrate > 0
                 idx = rand(1);
-                if idx < violationrate %violate sequence
+                if idx < violationrate % Violate sequence
                     options = [1 2 3 4];
                     counter = 1;
                     while counter <= 4
                         if options(counter) == sequence(numseq)
                             options(counter) = 0;
                         end
-                        
                         
                         if numseq > 1 && options(counter) == sequence(numseq - 1)
                             options(counter) = 0;
@@ -109,8 +91,8 @@ function [s,originalsequence] = sequencer(sequencelength, violationrate, reverse
             
             
         end
-        if violationrate == 0 %only shift if there is no violation rate
-            sequence = circshift(sequence, randi(sequencelength)); %this rotates sequence by random amount
+        if violationrate == 0 % Only shift if there is no violation rate
+            sequence = circshift(sequence, randi(sequencelength)); % This rotates sequence by random amount
         end
         s(j).sequence=sequence; %#ok
     end

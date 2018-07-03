@@ -1,5 +1,9 @@
-function polygon(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter)
+function polygon(t, screenNumber, window, screenXpixels, screenYpixels)
+%% -------- DESCRIPTION --------
+% Function creates, scales, and diplays the second image and the shape that
+% surrounds it.
 
+%% -------- FUNCTION --------
     numsides = t.numsides;
 
     % Define black and white
@@ -10,8 +14,8 @@ function polygon(t, screens, screenNumber,  black, window, windowRect, screenXpi
     shape = imread(shapename);
     shapeTexture = Screen('MakeTexture', window, shape);
 
-    [s1, s2, s3] = size(shape); %size of face
-    aspectRatio = s2 / s1; %find aspect ratio of face
+    [s1, s2, s3] = size(shape); %#ok % Size of face
+    aspectRatio = s2 / s1; % Find aspect ratio of face
 
     heightScalers = .58;
     shapeHeights = screenYpixels .* heightScalers;
@@ -51,14 +55,14 @@ function polygon(t, screens, screenNumber,  black, window, windowRect, screenXpi
         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.4);
     end
 
-    % adjust y coord for triangles
+    % Adjust y coord for triangles
     if t.startside == 'R' && numsides == 3
         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.29);
     elseif t.startside == 'L' && numsides == 3
         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.29); %was .29
     end
     
-    % adjust y coord for pentagons
+    % Adjust y coord for pentagons
     if t.startside == 'R' && numsides == 5
         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * 0.28, screenYpixels * 0.36);
     elseif t.startside == 'L' && numsides == 5
@@ -69,10 +73,10 @@ function polygon(t, screens, screenNumber,  black, window, windowRect, screenXpi
     facename = t.secondface;
     face = imread(strcat('..', filesep, 'Task3', filesep, 'Faces', filesep, facename));
     faceTexture = Screen('MakeTexture',window, face);
-    [s1, s2, s3] = size(face); %size of face
-    aspectRatio = s2 / s1; %find aspect ratio of face
+    [s1, s2, s3] = size(face); %#ok % Size of face
+    aspectRatio = s2 / s1; % Find aspect ratio of face
 
-    heightScalers = .36; %scales everything up/down
+    heightScalers = .36; % Scales everything up/down
     faceHeights = screenYpixels .* heightScalers;
     faceWidths = faceHeights .* aspectRatio;
     theRect = [0 0 faceWidths(1) faceHeights(1)];
