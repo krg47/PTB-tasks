@@ -1,4 +1,4 @@
-function task1(subID, repetitions, ISI, prob, emotion)
+function task1(subID, origRepetitions, flippedRepetitions, ISI, Duration, prob, emotion)
 %% -------- DESCRIPTION --------
 % Function calls other functions for the Face-Name Task.
 % A face will appear, and two randomly selected names will appear underneath the face. Names are pulled from a list.
@@ -68,7 +68,7 @@ Screen('Preference', 'SkipSyncTests',1);
 
 % Get user input and validate
 if nargin < 5
-    [subID, repetitions, ISI, prob, emotion] = userinput;
+   [subID,origRepetitions,flippedRepetitions,ISI,Duration,prob,emotion] = userinput;
     
     if emotion(1) == 'N' && emotion(2) == 'S'
         d = ['..' filesep 'Task1' filesep 'NS' filesep '*.JPG'];
@@ -81,10 +81,10 @@ if nargin < 5
     end
 end
 
-mid = fopen('MaleNames.txt');  %male name file id
-fid = fopen('FemaleNames.txt'); %female name file id
+mid = fopen('MaleNames.txt');  % Male name file id
+fid = fopen('FemaleNames.txt'); % Female name file id
 
-M = textscan(mid, '%s', 'delimiter', '\n'); %scan in name files into structures
+M = textscan(mid, '%s', 'delimiter', '\n'); % Scan in name files into structures
 MaleNames = M{1};
 fclose(mid);
 
@@ -92,10 +92,10 @@ F = textscan(fid, '%s', 'delimiter', '\n');
 FemaleNames = F{1};
 fclose(fid);
 
-%Run experimental task
-experiment(MaleNames, FemaleNames, d, repetitions, ISI, subID, prob, emotion);
+% Run experimental task
+experiment(MaleNames,FemaleNames,d,origRepetitions,flippedRepetitions,ISI,Duration,subID,prob,emotion);
 
-%save with date
+% Save with date
 filename = strcat('subject_',subID,'_',date,'.mat');
 copyfile(strcat('subject_',subID,'.mat'),filename);
 

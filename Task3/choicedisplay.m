@@ -1,4 +1,4 @@
-function t = choicedisplay(t, screenNumber, window, screenXpixels, screenYpixels)
+function t = choicedisplay(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter)
 %% -------- DESCRIPTION --------
 % Function aids in displaying the polygon and displays the prompt and
 % answers.
@@ -105,10 +105,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     
     heightScalers = .15;
     
-    if firstchoice == 3
-        heightScalers = .12;
-    end
-    
+     
     shapeHeights = screenYpixels .* heightScalers;
     shapeWidths = shapeHeights .* aspectRatio;
     
@@ -131,9 +128,7 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     
     heightScalers2 = .15;
     
-    if secondchoice == 3
-        heightScalers2 = .12;
-    end
+   
     
     shape2Heights = screenYpixels .* heightScalers2;
     shape2Widths = shape2Heights .* aspectRatio2;
@@ -148,17 +143,17 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Easy')
     
     if t.startside == 'L'
         
-        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels * .85);
+        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .60, screenYpixels * .88);
         Screen('DrawTexture', window, shapeTexture2, [-1, -2, sizes(2) + 1, sizes(1) + 1], dstRects);
         
-        dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .83, screenYpixels * .85);
+        dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .83, screenYpixels * .88);
         Screen('DrawTexture', window, shape2Texture, [-1, -1, sizes2(2) + 1, sizes2(1) + 1], dstRects2);
         
     elseif t.startside == 'R'
-        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .15, screenYpixels * .85);
+        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .15, screenYpixels * .88);
         Screen('DrawTexture', window, shapeTexture2, [-1, -2, sizes(2) + 1, sizes(1) + 1], dstRects);
         
-        dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .40, screenYpixels * .85);
+        dstRects2(:, 1) = CenterRectOnPointd(theRect2, screenXpixels * .40, screenYpixels * .88);
         Screen('DrawTexture', window, shape2Texture, [-1, -1, sizes2(2) + 1, sizes2(1) + 1], dstRects2);
         
     end
@@ -171,13 +166,13 @@ elseif strcmp(t.cogoremo, 'Cognitive') && strcmp(t.easyorhard, 'Hard')
     Screen('TextSize', window, 100);
     if t.startside == 'L' % Displaying the choices under the right side
         
-        DrawFormattedText(window, 'Even', screenXpixels * .51,  screenYpixels*.87, white);
-        DrawFormattedText(window, 'Odd', screenXpixels * .78, screenYpixels*.87, white);
+        DrawFormattedText(window, 'Even', screenXpixels * .51,  screenYpixels*.88, white);
+        DrawFormattedText(window, 'Odd', screenXpixels * .78, screenYpixels*.88, white);
         
     elseif t.startside == 'R' % Displaying the choices under the left side
         
-        DrawFormattedText(window, 'Even', screenXpixels*.06,  screenYpixels*.87, white);
-        DrawFormattedText(window, 'Odd', screenXpixels*.36,  screenYpixels*.87, white);
+        DrawFormattedText(window, 'Even', screenXpixels*.06,  screenYpixels*.88, white);
+        DrawFormattedText(window, 'Odd', screenXpixels*.36,  screenYpixels*.88, white);
         
     end
     
@@ -222,6 +217,8 @@ elseif v == 79
     else
         t.rightorwrong = 'Wrong';
     end
+else
+    t.rightorwrong = 'N/A'; %in case of wrong button pressed
 end
 Screen('Flip', window, [], 0);
 

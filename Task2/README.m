@@ -50,16 +50,19 @@
 
 % Adjustable parameters:
     % subID
-    % reverseblocks
-    % forwardblocks
-    % repetitions
-    % ITI
-    % ISI
-    % IBI
-    % Sex
-    % Race
-    % Emotion
-    % Violation Rate
+    % reverseblocks - number of blocks (sets of repetitions) where
+    %   increased speed leads to more negative valences
+    % forwardblocks - number of blocks (sets of repetitions) where
+    %   increased speed leads to more positive valences
+    % repetitions - number of sequences per block
+    % ITI - pause between sequences
+    % ISI - pause between two displayed faces
+    % IBI - pause between two groups of sequences
+    % Sex - Male or Female
+    % Race - Black or White
+    % Emotion - Neutral/Sad, Neutral/Fearful, or Happy/Sad
+    % Violation Rate - probability any given position in the sequence is
+    %   violated
     % Sequence Length
 
 % File/Directory Descriptions:
@@ -84,18 +87,17 @@
 
 
 % Example Use:
-    subID = '1234'; %subject ID
-    reverseblocks = 8; %number of blocks where faster times -> unhappy faces
-    forwardblocks = 4; %number of blocks where faster times -> happy faces
-    repetitions = 4; %number of times the sequence is shown per block
-    ITI = 0; %inter-trial interval (between each sequence)
-    ISI = 1.25; %inter-stimulus interval (between each face)
-    IBI = 5; %inter-block interval
-    sex = 'F'; %sex of the subject
-    race = 'W'; %race of the subject
-    emotion = 'NS'; % emotion spectrum to be used. NS = neutral - sad; NF = neutral - fear; HS = happy - sad
-    violationrate = 0; 
-    sequencelength = 7; 
-
-task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, sex, race, emotion, violationrate, sequencelength);
-
+%     subID = '1234'; 
+%     reverseblocks = 10;
+%     forwardblocks = 5; 
+%     repetitions = 7; 
+%     ITI = 0.75; 
+%     ISI = 0.15;
+%     IBI = 1.5; 
+%     sex = 'F'; 
+%     race = 'W'; 
+%     emotion = 'NS'; 
+%     violationrate = 0.1; 
+%     sequencelength = 5; 
+% 1234','10', '5', '7', '0.75', '0.15', '1.5', 'F', 'W', 'NS', '0.1','5'
+% task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, sex, race, emotion, violationrate)

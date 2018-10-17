@@ -78,12 +78,12 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
     % Give dialog box popup if arguments aren't given
     if nargin < 11
         while ~validInput
-            prompt = {'SubjectID:','Foward learning blocks:', 'Reverse learning blocks:', 'Repetitions:', 'Inter-Trial Interval:', 'Inter-Stimulus Interval:', 'Inter-Block Interval', 'Sex: (F or M)', 'Race: (W or B)', 'Emotion: (NS, NF, or HS)', 'Violation Rate', 'Sequence length'};
+            prompt = {'SubjectID:','Reverse learning blocks:', 'Forward learning blocks:', 'Repetitions:', 'Inter-Trial Interval:', 'Inter-Stimulus Interval:', 'Inter-Block Interval', 'Sex: (F or M)', 'Race: (W or B)', 'Emotion: (NS, NF, or HS)', 'Violation Rate', 'Sequence length'};
             dlg_title = 'Configure Task';
             num_lines = 1;
 
             % Default values
-            def = {'1234','8', '4', '4', '1.25', '0.15', '5', 'F', 'W', 'NS', '0','7'}; % Default is Neutral/sad
+            def = {'1234','10', '5', '7', '0.75', '0.15', '1.5', 'F', 'W', 'NS', '0.1','5'}; % Default is Neutral/sad
             answer = inputdlg(prompt,dlg_title,num_lines,def);
 
             if isempty(answer),return,end;
@@ -91,8 +91,8 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
             % Input validation
             if str2num(answer{2}) < 3 %#ok
                 uiwait(warndlg('Must be at least 3 Reverse learning blocks'));
-            elseif (mod((str2num(answer{2}) + str2num(answer{3})), 2) ~= 0) %#ok
-                uiwait(warndlg('Must be an even number of blocks'));
+%             elseif (mod((str2num(answer{2}) + str2num(answer{3})), 2) ~= 0) %#ok
+%                 uiwait(warndlg('Must be an even number of blocks'));
             elseif str2num(answer{4}) <= 1 %#ok
                 uiwait(warndlg('Must have > 1 repetitions'));
             elseif isnan(str2double(answer{5})) | isnan(str2double(answer{6})) | isnan(str2double(answer{7})) %#ok
@@ -211,7 +211,7 @@ function task2(subID, reverseblocks, forwardblocks, repetitions, ITI, ISI, IBI, 
             
             for numseq = 1:sequencelength % Length of the sequence
                 % Display faces
-                [responsetime, imgnum, theImage, fname,keyresponse] = squares(s, numseq, d, key,sequencelength, window, screenXpixels, screenYpixels,  yCenter,responsetime, imgnum, keyresponse, k, delta, emotion,violationrate,j); %#ok % Displays function 
+                [responsetime, imgnum, ~, fname,keyresponse] = squares(s,numseq,d,key,sequencelength,window,screenXpixels,screenYpixels,yCenter,responsetime,imgnum,keyresponse,k,delta,emotion,violationrate,j);   % Displays function 
                 WaitSecs(ISI) % Wait between faces
             end
 

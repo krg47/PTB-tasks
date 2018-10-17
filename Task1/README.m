@@ -43,12 +43,14 @@
 
 % Adjustable parameters:
 
-    % Subject ID
-    % Repetitions
-    % ISI
-    % Probability of bias
-    % Valence (Neutral/Sad, Neutral/Fearful, or Happy/Sad)
-
+    % Subject ID 
+    % Original Repetitions - total number of faces displayed with original bias
+    % Flipped Repetitions - total number of faces displayed with opposite bias
+    % ISI - time between response and the appearance of the next face
+    % Duration - the maximum allowed response time before the program advances to the next face
+    % Probability of bias - chance that the left key is favored toward one valence, and the right key toward the other valence
+    % Valence (Neutral/Sad, Neutral/Fearful, or Happy/Sad) - options for the emotion of the faces
+    
 % File/Directory Descriptions:
 
     % The working directory should include these files/folders:
@@ -67,9 +69,11 @@
 
 % Example Use:
     % subID = '1234'
-    % repetitions = 20;
-    % ISI = 1.25;
-    % prob = 1.0;
+    % origRepetitions = 80
+    % flippedRepetitions = 40
+    % ISI = 0.5
+    % Duration = 1.5
+    % prob = 0.9
     % emotion = 'NS'
-    % task1(subID, repetitions, ISI, prob, emotion);
+    % task1(subID, origRepetitions, flippedRepetitions, ISI, Duration, prob, emotion)
     

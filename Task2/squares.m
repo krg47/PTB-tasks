@@ -1,4 +1,4 @@
-function [responsetime, imgnum, theImage, fname, keyresponse] = squares(s, numseq, d, key, sequencelength,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion)
+function [responsetime, imgnum, theImage, fname, keyresponse] = squares(s, numseq, d, key, sequencelength,  window,  screenXpixels, screenYpixels, yCenter, responsetime, imgnum, keyresponse, k, delta, emotion, ~,~)
 %% -------- DESCRIPTION --------
 % Function creates the squares in which the faces will appear. This
 % function also outputs the faces into the designated squares determined by

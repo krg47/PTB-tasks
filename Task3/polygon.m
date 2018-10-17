@@ -1,4 +1,5 @@
-function polygon(t, screenNumber, window, screenXpixels, screenYpixels)
+function polygon(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter)
+%function polygon(t, screenNumber, window, screenXpixels, screenYpixels,~,~,~,~,~)
 %% -------- DESCRIPTION --------
 % Function creates, scales, and diplays the second image and the shape that
 % surrounds it.
@@ -49,23 +50,29 @@ function polygon(t, screenNumber, window, screenXpixels, screenYpixels)
 
     theRect = [0 0 shapeWidths(1) shapeHeights(1)];
 
-    if t.startside == 'R' && numsides ~= 3
+    if t.startside == 'R' && numsides==4
         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.4);
-    elseif t.startside == 'L' && numsides ~= 3
+    elseif t.startside == 'L' && numsides==4
+        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.4);
+    end
+    
+    if t.startside == 'R' && numsides==6
+        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.4);
+    elseif t.startside == 'L' && numsides==6
         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.4);
     end
 
     % Adjust y coord for triangles
     if t.startside == 'R' && numsides == 3
-        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.29);
+        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .28, screenYpixels*.4);
     elseif t.startside == 'L' && numsides == 3
-        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.29); %was .29
+        dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * .72, screenYpixels*.4); 
     end
     
     % Adjust y coord for pentagons
-    if t.startside == 'R' && numsides == 5
+    if t.startside == 'R' && numsides==5
         dstRects(:, 1) = CenterRectOnPointd(theRect, screenXpixels * 0.28, screenYpixels * 0.36);
-    elseif t.startside == 'L' && numsides == 5
+    elseif t.startside == 'L' && numsides==5
         dstRects(:,1) = CenterRectOnPointd(theRect, screenXpixels * 0.72, screenYpixels * 0.36);
     end
     
@@ -90,6 +97,6 @@ function polygon(t, screenNumber, window, screenXpixels, screenYpixels)
     Screen('DrawTextures', window, faceTexture, [],faceRects);
 
     % Flip to the screen
-    Screen('Flip', window, [], 1);
+%     Screen('Flip', window, [], 1);
 
 end

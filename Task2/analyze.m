@@ -1,4 +1,4 @@
-function [key, delta] = analyze(responsetime, j, repetitions, baseline, reverse,sequencelength)
+function [key, delta] = analyze(responsetime, j,repetitions,k, baseline, reverse,sequencelength)
 %% -------- DESCRIPTION --------
 % Function calculates the percent change in valence based
 % on the response time and impliments the appropriate change in emotion.

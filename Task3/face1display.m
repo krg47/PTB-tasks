@@ -1,4 +1,4 @@
-function t = face1display(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter, ISI)
+function t = face1display(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter, ISI,~)
 %% -------- DESCRIPTION --------
 % Function determines where the next face will be displayed on the screen.
 
@@ -31,7 +31,7 @@ function t = face1display(t, screens, screenNumber,  black, window, windowRect, 
 
     % Display second face with shape
     polygon(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter);
-    WaitSecs(ISI);
+%     WaitSecs(ISI);
 
     % Display answer choices
     t = choicedisplay(t, screens, screenNumber,  black, window, windowRect, screenXpixels, screenYpixels, xCenter, yCenter);
